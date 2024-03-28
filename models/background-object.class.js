@@ -5,7 +5,7 @@ class BackgroundObject extends MovableObject {
 
 
 
-    constructor(imagePath, x) {
+    constructor(imagePath, x, y) {
         super().loadImage(imagePath);
         this.y = 480-400;
         this.x = x;
