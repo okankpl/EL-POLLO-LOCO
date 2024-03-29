@@ -7,4 +7,11 @@ class Cloud extends MovableObject {
         this.width = 500;
         
     }
+
+    update() {
+        this.x -= 2; // Bewege die Wolke um 2 Einheiten nach links
+        if (this.x + this.width < 0) {
+            this.x = 720; // Setze die Wolke zurück auf die rechte Seite des Canvas
+        }
+    }
 }

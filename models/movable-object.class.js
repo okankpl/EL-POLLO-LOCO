@@ -18,4 +18,8 @@ class MovableObject {
     moveLeft() {
         
     }
+
+    update() {
+      // Diese Methode kann in abgeleiteten Klassen überschrieben werden.
+  }
 }
