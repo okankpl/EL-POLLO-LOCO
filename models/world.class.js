@@ -9,14 +9,16 @@ class World {
     new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
     new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0, 480),
   ];
-  
+
   canvas;
   ctx;
-
-  constructor(canvas) {
+  keyboard;
+  constructor(canvas, keyboard) {
+    this.keyboard = keyboard;
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.draw();
+    this.setWorld(keyboard);
   }
 
   draw() {
@@ -41,5 +43,9 @@ class World {
 
   addToMap(mo) {
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 }
