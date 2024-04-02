@@ -1,9 +1,6 @@
 class World {
   character = new Character();
-  enemies = level1.enemies;
-
-  clouds = level1.clouds;
-  backgroundObject = level1.backgroundObjects;
+  level = level1;
   canvas;
   ctx;
   keyboard;
@@ -19,10 +16,10 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.backgroundObject);
+    this.addObjectsToMap(this.level.backgroundObjects);
     this.addToMap(this.character);
-    this.addObjectsToMap(this.enemies);
-    this.addObjectsToMap(this.clouds);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.clouds);
     this.ctx.translate(-this.camera_x, 0);
 
     //draw wird immer wieder aufgerufen
