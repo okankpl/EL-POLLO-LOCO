@@ -13,9 +13,11 @@ class MovableObject {
 
   applyGravity() {
     setInterval(() => {
-      this.y -= this.speedY;
-      this.speedY -= this.acceleration;
-    }, 1000/25);
+      if (this.y < 130) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 25);
   }
 
   loadImage(path) {
