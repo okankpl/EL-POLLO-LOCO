@@ -1,5 +1,6 @@
 class Character extends MovableObject {
   height = 250;
+  width = 100;
   y = 80;
   speed = 4;
   IMAGES_WALKING = [
@@ -35,13 +36,9 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       this.walking_sound.pause();
-      if (
-        this.world.keyboard.RIGHT == true &&
-        this.x < this.world.level.level_end_x
+      if (this.world.keyboard.RIGHT == true && this.x < this.world.level.level_end_x
       ) {
-        this.x += this.speed;
-        this.otherDirection = false;
-        this.walking_sound.play();
+        this.moveRight();
       }
 
       if (this.world.keyboard.LEFT == true && this.x > 0) {
@@ -50,8 +47,8 @@ class Character extends MovableObject {
         this.walking_sound.play();
       }
 
-      if (this.world.keyboard.UP == true) {
-        this.speedY = 20;
+      if (this.world.keyboard.UP == true && !this.isAboveGround()) {
+        this.jump();
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
@@ -67,7 +64,4 @@ class Character extends MovableObject {
     }, 50);
   }
 
-  jump() {
-    
-  }
 }

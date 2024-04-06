@@ -9,7 +9,7 @@ class MovableObject {
   otherDirection = false;
   currentImage = 0;
   speedY = 0;
-  acceleration =0.5;
+  acceleration =2.5;
 
   applyGravity() {
     setInterval(() => {
@@ -45,12 +45,18 @@ class MovableObject {
   }
 
   moveRight() {
-    console.log("Moving right");
+    this.x += this.speed;
+    this.otherDirection = false;
+    this.walking_sound.play();
   }
 
   moveLeft() {
     setInterval(() => {
       this.x -= this.speed;
     }, 1000 / 60);
+  }
+
+  jump() {
+    return this.speedY = 30;
   }
 }
