@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+  chicken = new Chicken();
   level = level1;
   canvas;
   ctx;
