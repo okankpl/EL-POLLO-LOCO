@@ -9,7 +9,7 @@ class MovableObject {
   otherDirection = false;
   currentImage = 0;
   speedY = 0;
-  acceleration =2.5;
+  acceleration = 2.5;
 
   applyGravity() {
     setInterval(() => {
@@ -37,6 +37,18 @@ class MovableObject {
     });
   }
 
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+
+  drawFrame(ctx) {
+    ctx.beginPath();
+    ctx.lineWidth = "5";
+    ctx.strokeStyle = "blue";
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.stroke();
+  }
+
   playAnimation(images) {
     let i = this.currentImage % this.IMAGES_WALKING.length;
     let path = images[i];
@@ -51,5 +63,4 @@ class MovableObject {
   moveLeft() {
     this.x -= this.speed;
   }
-
 }
