@@ -10,6 +10,7 @@ class MovableObject {
   currentImage = 0;
   speedY = 0;
   acceleration = 2.5;
+  health = 100;
 
   applyGravity() {
     setInterval(() => {
@@ -78,7 +79,6 @@ class MovableObject {
     //   this.y + this.offsetY <= obj.y + obj.height &&
     //   obj.onCollisionCourse
     // ); // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-  
     return this.x + this.width > mo.x &&
     this.y + this.height > mo.y &&
     this.x < mo.x &&
