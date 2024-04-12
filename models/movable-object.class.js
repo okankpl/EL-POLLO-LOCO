@@ -42,12 +42,16 @@ class MovableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+    if (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Endboss
+    ) {
       ctx.beginPath();
-    ctx.lineWidth = "5";
-    ctx.strokeStyle = "blue";
-    ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.stroke();
+      ctx.lineWidth = "5";
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.stroke();
     }
   }
 
@@ -65,4 +69,13 @@ class MovableObject {
   moveLeft() {
     this.x -= this.speed;
   }
+
+  isColliding (obj) {
+    return  (this.x + this.width) >= obj.x && this.x <= (obj.x + obj.width) && 
+            (this.y + this.offsetY + this.height) >= obj.y &&
+            (this.y + this.offsetY) <= (obj.y + obj.height) && 
+            obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+  
+  }
 }
+
