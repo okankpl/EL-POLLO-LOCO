@@ -84,5 +84,12 @@ class MovableObject {
     this.x < mo.x &&
     this.y <mo.y + mo.height
   }
+
+  hit() {
+    this.health -=5;
+    if (this.health < 0) {
+      this.health = 0;
+    }
+  }
 }
 
