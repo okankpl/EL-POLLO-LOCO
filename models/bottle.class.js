@@ -10,13 +10,13 @@ class Bottles extends MovableObject {
     constructor() {
       super().loadImage(this.IMAGES_BOTTLES);
       this.x = 300 + Math.random() * 1400;
-      this.loadImages(this.IMAGES);
+      this.loadImages(this.IMAGES_BOTTLES);
       this.animate();
     }
   
     animate() {
       setInterval(() => {
-        this.playAnimation(this.IMAGES);
+        this.playAnimation(this.IMAGES_BOTTLES);
       }, 400);
     }
   }

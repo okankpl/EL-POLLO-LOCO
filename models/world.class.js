@@ -48,7 +48,7 @@ class World {
                 this.level.bottles.splice(this.level.bottles.indexOf(bottle), 1);
                 this.collectedBottles++;
                 
-                this.statusBarFlasks.setPercentage(this.collectedBottles);
+                this.bottleStatusBar.setPercentage(this.collectedBottles);
             }
         }
     });

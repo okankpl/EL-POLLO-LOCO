@@ -49,7 +49,7 @@ handleInstance() {
 if (this instanceof BottleStatusbar) {
     return this.IMAGES_BOTTLES[this.resolveImageIndex()];
 }  else {
-    return this.IMAGES_HEALTH[this.resolveImageIndex()];
+    return this.IMAGES[this.resolveImageIndex()];
 }
 }
 
@@ -57,7 +57,7 @@ if (this instanceof BottleStatusbar) {
 resolveImageIndex() {
 if (this instanceof BottleStatusbar) {
     return this.percentageInvers(); // Call as property
-} else if (this instanceof StatusBarEndboss || this instanceof StatusBar) {
+} else if (this instanceof Statusbar) {
     return this.percentageNormal(); // Call as property
 }
 }
