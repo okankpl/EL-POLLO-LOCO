@@ -8,7 +8,7 @@ class World {
   camera_x = 0;
   statusBar = new Statusbar();
   bottleStatusBar = new BottleStatusbar();
-  coinStatusBar = new CoinStatusbar();
+  coinsStatusBar = new CoinStatusbar();
   throwableObject = [];
 
   constructor(canvas, keyboard) {
@@ -49,20 +49,27 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
+
+    // Verschiebt den Zeichenursprung entsprechend der Kameraposition
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
-    this.ctx.translate(-this.camera_x, 0);
     
-    this.ctx.translate(this.camera_x, 0);
+    // Fügt Hintergrundobjekte zum Canvas hinzu
+    this.addObjectsToMap(this.level.backgroundObjects);
+    
+    // Zeichnet Charakter, Wolken, Feinde und Wurfobjekte
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
-    this.addToMap(this.statusBar);
-    this.addToMap(this.bottleStatusBar);
-    this.addToMap(this.coinStatusBar);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObject);
+    
+    // Setzt die Verschiebung der Kamera zurück, um die Statusleisten an der festen Position zu zeichnen
     this.ctx.translate(-this.camera_x, 0);
-
+    
+    // Zeichnet die Statusleisten zuletzt, damit sie über allen anderen Elementen erscheinen
+    this.addToMap(this.statusBar);
+    this.addToMap(this.bottleStatusBar);
+    this.addToMap(this.coinsStatusBar);
+    
     //draw wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(function () {
