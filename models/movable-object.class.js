@@ -4,6 +4,8 @@ class MovableObject extends DrawableObject {
   speedY = 0;
   acceleration = 2.5;
   health = 100;
+  coins = 0;
+  bottles = 0;
   lastHit = 0;
 
   applyGravity() {
