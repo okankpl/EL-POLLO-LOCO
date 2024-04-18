@@ -10,6 +10,7 @@ class World {
   bottleStatusBar = new BottleStatusbar();
   coinsStatusBar = new CoinStatusbar();
   throwableObject = [];
+  collectedBottles = 0;
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -32,13 +33,26 @@ class World {
   }
 
   checkCollisions() {
-    this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
+    this.level.enemies.forEach((enemy,coins,bottles) => {
+      if (this.character.isColliding(enemy,coins,bottles)) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.health);
       }
     });
   }
+
+  collectBottles() {
+    this.level.bottles.forEach((bottle) => {
+        if (this.character.isColliding(bottle)) {
+            if (this.collectedBottles < 5) {
+                this.level.bottles.splice(this.level.bottles.indexOf(bottle), 1);
+                this.collectedBottles++;
+                
+                this.statusBarFlasks.setPercentage(this.collectedBottles);
+            }
+        }
+    });
+}
 
   checkThrowObjects() {
     if (this.keyboard.D) {
@@ -50,22 +64,16 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
 
-    // Verschiebt den Zeichenursprung entsprechend der Kameraposition
     this.ctx.translate(this.camera_x, 0);
     
-    // Fügt Hintergrundobjekte zum Canvas hinzu
     this.addObjectsToMap(this.level.backgroundObjects);
     
-    // Zeichnet Charakter, Wolken, Feinde und Wurfobjekte
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObject);
-    
-    // Setzt die Verschiebung der Kamera zurück, um die Statusleisten an der festen Position zu zeichnen
+    this.addObjectsToMap(this.level.bottles);
     this.ctx.translate(-this.camera_x, 0);
-    
-    // Zeichnet die Statusleisten zuletzt, damit sie über allen anderen Elementen erscheinen
     this.addToMap(this.statusBar);
     this.addToMap(this.bottleStatusBar);
     this.addToMap(this.coinsStatusBar);
@@ -107,4 +115,6 @@ class World {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
+
+  
 }
