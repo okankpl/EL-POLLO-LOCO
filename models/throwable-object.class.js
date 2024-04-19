@@ -23,14 +23,5 @@ class ThrowableObject extends MovableObject {
       }, 25);
     }
   }
-
-  checkCollisionWithEnemy(enemies) {
-    enemies.forEach((enemy, index) => {
-      if (this.isColliding(enemy)) {
-        enemies.splice(index, 1); // Entfernt den Gegner
-        return true;
-      }
-    });
-    return false;
   }
-}
+

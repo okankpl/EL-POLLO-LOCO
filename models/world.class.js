@@ -9,9 +9,10 @@ class World {
   statusBar = new Statusbar();
   coinsStatusBar = new CoinStatusbar();
   bottleStatusBar = new BottleStatusbar();
-  throwableObject = [];
   collectedBottles = 0;
   collectedCoins = 0;
+  throwableObjects = [];
+  bottle = new ThrowableObject();
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -32,7 +33,7 @@ class World {
       this.checkThrowObjects();
       this.collectingBottles();
       this.collectingCoins();
-      this.checkCollisionsWithBottles();
+      this.bottleKill();
     }, 200);
   }
 
@@ -45,18 +46,22 @@ class World {
     });
   }
 
-  checkCollisionsWithBottles() {
-    this.throwableObject = this.throwableObject.filter(bottle => {
-      if (!bottle.checkCollisionWithEnemy(this.level.enemies)) {
-        return true; // Behält die Flasche bei, wenn sie keinen Gegner getroffen hat
-      } else {
-        // Optional: Füge hier Logik hinzu, um Animationen oder Soundeffekte abzuspielen
-        return false; // Entfernt die Flasche, wenn sie einen Gegner getroffen hat
-      }
+  bottleKill() {
+    this.throwableObjects.forEach((bottle, indexBottle) => {
+        if (this.bottleCollidingEnemy(this.endboss, indexBottle)) {
+            this.isCollidingWithBoss = true;
+            this.level.endboss.hit(20);
+            this.statusBarEndboss.setPercentage(this.level.endboss.energy);
+            this.playAudio(this.endboss, 'jumped_on_sound', 0.2);
+        }
     });
-  }
+}
 
-  
+bottleCollidingEnemy(enemy, indexBottle) {
+    return this.throwableObjects[indexBottle].isColliding(enemy);
+}
+
+ 
   collectingBottles() {
     this.level.bottles.forEach((bottle, index) => {
       if (this.character.isColliding(bottle)) {
@@ -84,7 +89,7 @@ class World {
   checkThrowObjects() {
     if (this.keyboard.D && this.collectedBottles > 0) {
       let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
-      this.throwableObject.push(bottle);
+      this.throwableObjects.push(bottle);
       this.collectedBottles--;  
       this.bottleStatusBar.setPercentage(this.collectedBottles);  
     }
@@ -105,7 +110,7 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.throwableObject);
+    this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
 
     //draw wird immer wieder aufgerufen

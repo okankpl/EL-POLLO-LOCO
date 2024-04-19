@@ -22,12 +22,13 @@ class DrawableObject {
       this instanceof Chicken ||
       this instanceof Endboss ||
       this instanceof Coins || 
-      this instanceof Bottles
+      this instanceof Bottles ||
+      this instanceof ThrowableObject
     ) {
       ctx.beginPath();
       
       ctx.rect(this.x, this.y, this.width, this.height);
-      
+      ctx.stroke();
     }
   }
   
