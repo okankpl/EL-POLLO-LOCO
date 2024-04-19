@@ -7,10 +7,9 @@ class World {
   keyboard;
   camera_x = 0;
   statusBar = new Statusbar();
-  bottleStatusBar = new BottleStatusbar();
   coinsStatusBar = new CoinStatusbar();
+  bottleStatusBar = new BottleStatusbar();
   throwableObject = [];
-  collectedBottles = 0;
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -33,26 +32,13 @@ class World {
   }
 
   checkCollisions() {
-    this.level.enemies.forEach((enemy,coins,bottles) => {
-      if (this.character.isColliding(enemy,coins,bottles)) {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.health);
       }
     });
   }
-
-  collectBottles() {
-    this.level.bottles.forEach((bottle) => {
-        if (this.character.isColliding(bottle)) {
-            if (this.collectedBottles < 5) {
-                this.level.bottles.splice(this.level.bottles.indexOf(bottle), 1);
-                this.collectedBottles++;
-                
-                this.bottleStatusBar.setPercentage(this.collectedBottles);
-            }
-        }
-    });
-}
 
   checkThrowObjects() {
     if (this.keyboard.D) {
@@ -63,21 +49,19 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
-
     this.ctx.translate(this.camera_x, 0);
-    
     this.addObjectsToMap(this.level.backgroundObjects);
-    
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.clouds);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.throwableObject);
-    this.addObjectsToMap(this.level.bottles);
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
     this.addToMap(this.bottleStatusBar);
     this.addToMap(this.coinsStatusBar);
-    
+    this.ctx.translate(this.camera_x, 0);
+    this.addToMap(this.character);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.throwableObject);
+    this.ctx.translate(-this.camera_x, 0);
+
     //draw wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(function () {
@@ -115,6 +99,4 @@ class World {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
-
-  
 }
