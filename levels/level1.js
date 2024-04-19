@@ -65,5 +65,36 @@ const level1 = new Level(
       3 * 719,
       480
     ),
+  ],
+
+  [
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+    new Bottles(),
+  ],
+
+  [
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
+    new Coins(),
   ]
+  
 );
