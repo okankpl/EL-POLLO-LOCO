@@ -33,8 +33,12 @@ class World {
       this.checkThrowObjects();
       this.collectingBottles();
       this.collectingCoins();
-      this.bottleKill();
+     
     }, 200);
+
+    setInterval(() => {
+      this.bottleKill();
+    }, 50);
   }
 
   checkCollisions() {
@@ -48,12 +52,17 @@ class World {
 
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
-        if (this.bottleCollidingEnemy(this.endboss, indexBottle)) {
-            this.isCollidingWithBoss = true;
-            this.level.endboss.hit(20);
-            this.statusBarEndboss.setPercentage(this.level.endboss.energy);
-            this.playAudio(this.endboss, 'jumped_on_sound', 0.2);
-        }
+        let bottleUsed = false; 
+        this.level.enemies.forEach((enemy) => {
+            if (!bottleUsed && this.bottleCollidingEnemy(enemy, indexBottle)) {
+                bottleUsed = true; 
+                
+                setTimeout(() => {
+                    this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
+                }, 300);
+                
+            }
+        });
     });
 }
 

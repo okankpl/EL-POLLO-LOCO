@@ -16,7 +16,7 @@ class ThrowableObject extends MovableObject {
     if (collectedBottles > 0) {
       collectedBottles--;
 
-      this.speedY = 30;
+      this.speedY = 20;
       this.applyGravity();
       setInterval(() => {
         this.x += 10;
