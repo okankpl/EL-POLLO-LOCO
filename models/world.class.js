@@ -34,11 +34,11 @@ class World {
       this.collectingBottles();
       this.collectingCoins();
       this.updateGameObjects();
-     
     }, 200);
 
     setInterval(() => {
       this.bottleKill();
+      this.jumpKill();
     }, 50);
   }
 
@@ -52,57 +52,61 @@ class World {
   }
 
   updateGameObjects() {
-    this.throwableObjects = this.throwableObjects.filter(obj => !obj.toRemove); // Entfernt alle Objekte, die zur Entfernung markiert sind
+    this.throwableObjects = this.throwableObjects.filter(
+      (obj) => !obj.toRemove
+    ); // Entfernt alle Objekte, die zur Entfernung markiert sind
   }
 
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
-        const toRemove = [];
-        hitByBottle = true;
-        this.level.enemies.forEach((enemy, indexEnemy) => {
-            if (this.bottleCollidingEnemy(enemy, indexBottle)) {
-                toRemove.push(indexEnemy);
-            }
-        });
-        toRemove.reverse().forEach(index => {
-          setTimeout(() => {
-            this.level.enemies.splice(index, 1);
-          }, 500);
-            
-        });
+      const toRemove = [];
+      hitByBottle = true;
+      this.level.enemies.forEach((enemy, indexEnemy) => {
+        if (this.bottleCollidingEnemy(enemy, indexBottle)) {
+          toRemove.push(indexEnemy);
+        }
+      });
+      toRemove.reverse().forEach((index) => {
+        setTimeout(() => {
+          this.level.enemies.splice(index, 1);
+        }, 500);
+      });
     });
-}
-
-killByJump() {
-  this.level.enemies.forEach((enemy) => {
-      // Überprüft, ob der Charakter auf den Feind springt und sich nach unten bewegt
-      if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY > 0) {
-          enemy.isJumpedOn = true;
-          this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1); // Sofortiges Entfernen
-
-          this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Kill
-      }
-  });
-}
-
-jumpAfterKill() {
-  // Prüfung auf eine bestimmte Y-Position, um zu entscheiden, ob der Charakter springen soll
-  if (this.character.y > 70) {
-      this.character.speedY = -10; // Negativer Wert, um nach oben zu springen
   }
-}
 
+  jumpKill() {
+    this.level.enemies.forEach((enemy) => {
+      if (
+        this.character.isColliding(enemy) &&
+        this.character.isAboveGround() &&
+        this.character.speedY < 0
+      ) {
+        
+        setTimeout(() => {
+          this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
+        }, 300);
 
+        this.jumpAfterKill();
+      }
+    });
+  }
 
-bottleCollidingEnemy(enemy, indexBottle) {
-  let bottle = this.throwableObjects[indexBottle];
-  return bottle.x < enemy.x + enemy.width &&
-         bottle.x + bottle.width > enemy.x &&
-         bottle.y < enemy.y + enemy.height &&
-         bottle.y + bottle.height > enemy.y;
-}
+  jumpAfterKill() {
+    if (this.character.y > 70) {
+      this.character.speedY = 10;
+    }
+  }
 
- 
+  bottleCollidingEnemy(enemy, indexBottle) {
+    let bottle = this.throwableObjects[indexBottle];
+    return (
+      bottle.x < enemy.x + enemy.width &&
+      bottle.x + bottle.width > enemy.x &&
+      bottle.y < enemy.y + enemy.height &&
+      bottle.y + bottle.height > enemy.y
+    );
+  }
+
   collectingBottles() {
     this.level.bottles.forEach((bottle, index) => {
       if (this.character.isColliding(bottle)) {
@@ -129,10 +133,13 @@ bottleCollidingEnemy(enemy, indexBottle) {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.collectedBottles > 0) {
-      let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
+      let bottle = new ThrowableObject(
+        this.character.x + 50,
+        this.character.y + 100
+      );
       this.throwableObjects.push(bottle);
-      this.collectedBottles--;  
-      this.bottleStatusBar.setPercentage(this.collectedBottles);  
+      this.collectedBottles--;
+      this.bottleStatusBar.setPercentage(this.collectedBottles);
     }
   }
 
@@ -168,7 +175,6 @@ bottleCollidingEnemy(enemy, indexBottle) {
   }
 
   addToMap(mo) {
-
     if (!mo.isVisible && this instanceof ThrowableObject) return;
 
     if (mo.otherDirection) {
