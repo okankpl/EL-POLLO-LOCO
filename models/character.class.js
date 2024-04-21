@@ -4,12 +4,6 @@ class Character extends MovableObject {
   y = 180;
   speed = 4;
 
-  offSet = {
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0
-};
   
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -58,7 +52,12 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.animate();
     this.applyGravity();
-    
+    this.offset = {
+      top: 200,
+      left: 15,
+      right: 40,
+      bottom: 100
+    };
   }
 
   animate() {
