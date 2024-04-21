@@ -41,27 +41,33 @@ class ThrowableObject extends MovableObject {
       collectedBottles--;
       this.speedY = 20; // Startgeschwindigkeit nach unten
       const gravityInterval = this.applyGravity(); // Startet die Schwerkraftwirkung
-  
+
       const movementInterval = setInterval(() => {
         this.x += 10; // Bewegt die Flasche horizontal
         this.playAnimation(this.IMAGES_BOTTLE_THROWING); // Spielt die Wurfanimation ab
-  
-        if (this.y >= 380) { // Angenommen, 380 ist der Boden
-          clearInterval(gravityInterval);
-          clearInterval(movementInterval);
-          this.speedY = 0;
-          this.y = 380;
-  
-          let animationCount = 0; // Zähler für die Anzahl der Splash-Animationen
-          const splashAnimation = setInterval(() => {
-            this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-  
-            if (++animationCount > 6) { // Zählt die Anzahl der Durchläufe
-              clearInterval(splashAnimation); // Beendet das Intervall nach 6 Durchläufen
-            }
-          }, 50);
+
+        if (this.y >= 380) {
+          // Angenommen, 380 ist der Boden
+          this.splashAnimation(gravityInterval, movementInterval);
         }
       }, 25);
     }
+  }
+
+  splashAnimation(gravityInterval, movementInterval) {
+    clearInterval(gravityInterval);
+    clearInterval(movementInterval);
+    this.speedY = 0;
+    this.y = 380;
+
+    let animationCount = 0; // Zähler für die Anzahl der Splash-Animationen
+    const splashAnimation = setInterval(() => {
+      this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+
+      if (++animationCount > 6) {
+        clearInterval(splashAnimation); // Beendet das Intervall nach 6 Durchläufen
+        this.toRemove = true;
+      }
+    }, 50);
   }
 }

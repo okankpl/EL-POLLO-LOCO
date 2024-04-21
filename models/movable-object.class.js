@@ -5,7 +5,7 @@ class MovableObject extends DrawableObject {
   acceleration = 2.5;
   health = 100;
   lastHit = 0;
-  offsetY = 100;
+  isVisible = true;
 
   offset = {
     left: 0,

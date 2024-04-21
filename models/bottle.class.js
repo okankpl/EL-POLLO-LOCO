@@ -1,7 +1,7 @@
 class Bottles extends MovableObject {
-    y = 340;
-    height = 90;
-    width = 90;
+    y = 360;
+    height = 70;
+    width = 70;
     IMAGES = [
       "img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
       "img/6_salsa_bottle/2_salsa_bottle_on_ground.png",

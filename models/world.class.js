@@ -33,6 +33,7 @@ class World {
       this.checkThrowObjects();
       this.collectingBottles();
       this.collectingCoins();
+      this.updateGameObjects();
      
     }, 200);
 
@@ -50,18 +51,45 @@ class World {
     });
   }
 
+  updateGameObjects() {
+    this.throwableObjects = this.throwableObjects.filter(obj => !obj.toRemove); // Entfernt alle Objekte, die zur Entfernung markiert sind
+  }
+
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
         const toRemove = [];
+        hitByBottle = true;
         this.level.enemies.forEach((enemy, indexEnemy) => {
             if (this.bottleCollidingEnemy(enemy, indexBottle)) {
                 toRemove.push(indexEnemy);
             }
         });
         toRemove.reverse().forEach(index => {
+          setTimeout(() => {
             this.level.enemies.splice(index, 1);
+          }, 500);
+            
         });
     });
+}
+
+killByJump() {
+  this.level.enemies.forEach((enemy) => {
+      // Überprüft, ob der Charakter auf den Feind springt und sich nach unten bewegt
+      if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY > 0) {
+          enemy.isJumpedOn = true;
+          this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1); // Sofortiges Entfernen
+
+          this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Kill
+      }
+  });
+}
+
+jumpAfterKill() {
+  // Prüfung auf eine bestimmte Y-Position, um zu entscheiden, ob der Charakter springen soll
+  if (this.character.y > 70) {
+      this.character.speedY = -10; // Negativer Wert, um nach oben zu springen
+  }
 }
 
 
@@ -140,6 +168,9 @@ bottleCollidingEnemy(enemy, indexBottle) {
   }
 
   addToMap(mo) {
+
+    if (!mo.isVisible && this instanceof ThrowableObject) return;
+
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
