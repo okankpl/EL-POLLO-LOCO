@@ -52,22 +52,26 @@ class World {
 
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
-        let bottleUsed = false; 
-        this.level.enemies.forEach((enemy) => {
-            if (!bottleUsed && this.bottleCollidingEnemy(enemy, indexBottle)) {
-                bottleUsed = true; 
-                
-                setTimeout(() => {
-                    this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
-                }, 300);
-                
+        const toRemove = [];
+        this.level.enemies.forEach((enemy, indexEnemy) => {
+            if (this.bottleCollidingEnemy(enemy, indexBottle)) {
+                toRemove.push(indexEnemy);
             }
+        });
+        toRemove.reverse().forEach(index => {
+            this.level.enemies.splice(index, 1);
         });
     });
 }
 
+
+
 bottleCollidingEnemy(enemy, indexBottle) {
-    return this.throwableObjects[indexBottle].isColliding(enemy);
+  let bottle = this.throwableObjects[indexBottle];
+  return bottle.x < enemy.x + enemy.width &&
+         bottle.x + bottle.width > enemy.x &&
+         bottle.y < enemy.y + enemy.height &&
+         bottle.y + bottle.height > enemy.y;
 }
 
  

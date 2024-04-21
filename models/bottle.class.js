@@ -13,6 +13,12 @@ class Bottles extends MovableObject {
       this.x = 300 + Math.random() * 1400;
       this.loadImages(this.IMAGES);
       this.animate();
+      this.offset = {
+        top: 10,
+        left: 15,
+        right: 15,
+        bottom: 10
+      };
     }
   
     animate() {

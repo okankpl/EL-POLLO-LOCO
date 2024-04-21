@@ -12,6 +12,12 @@ class Coins extends MovableObject {
       this.x = 300 + Math.random() * 2000;
       this.loadImages(this.IMAGES);
       this.animate();
+      this.offset = {
+        top: 35,
+        left: 45,
+        right: 45,
+        bottom: 35
+      };
     }
   
     animate() {

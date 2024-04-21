@@ -21,25 +21,24 @@ class DrawableObject {
       this instanceof Character ||
       this instanceof Chicken ||
       this instanceof Endboss ||
-      this instanceof Coins || 
+      this instanceof Coins ||
       this instanceof Bottles ||
       this instanceof ThrowableObject
     ) {
       ctx.beginPath();
       ctx.lineWidth = "2";
-      ctx.strokeStyle = "red"; // Rote Farbe für die offset-angepasste Kollisionsbox
-      // Zeichne ein Rechteck basierend auf den Offset-Einstellungen
+      ctx.strokeStyle = "red";
+
       ctx.rect(
-        this.x + this.offset.left, 
-        this.y + this.offset.top, 
-        this.width - this.offset.left - this.offset.right, 
+        this.x + this.offset.left,
+        this.y + this.offset.top,
+        this.width - this.offset.left - this.offset.right,
         this.height - this.offset.top - this.offset.bottom
       );
       ctx.stroke();
-      
     }
   }
-  
+
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
