@@ -58,7 +58,8 @@ class World {
   }
 
   bottleKill() {
-    this.throwableObjects.forEach((bottle, indexBottle) => {
+    if (this instanceof Chicken) {
+      this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies.forEach((enemy, indexEnemy) => {
         if (this.bottleCollidingEnemy(enemy, indexBottle)) {
           enemy.die(); // Ruft die Sterbemethode auf
@@ -68,6 +69,8 @@ class World {
 
     // Filtern Sie die Feinde heraus, die entfernt werden sollen
     this.level.enemies = this.level.enemies.filter((enemy) => !enemy.toRemove);
+    }
+    
   }
 
   jumpKill() {
@@ -126,16 +129,16 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.collectedBottles > 0) {
-      let bottle = new ThrowableObject(
-        this.character.x + 50,
-        this.character.y + 100,
-        this.character.otherDirection
-      );
-      this.throwableObjects.push(bottle);
-      this.collectedBottles--;
-      this.bottleStatusBar.setPercentage(this.collectedBottles);
+        let bottle = new ThrowableObject(
+            this.character.x + 50, 
+            this.character.y + 100, 
+            this.character.otherDirection // Hier wird nur die Richtung übergeben, keine Flaschenzählung verändert
+        );
+        this.throwableObjects.push(bottle);
+        this.collectedBottles--; // Korrekte Stelle, um die Flaschen zu dekrementieren
+        this.bottleStatusBar.setPercentage(this.collectedBottles);
     }
-  }
+}
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas

@@ -17,52 +17,48 @@ class ThrowableObject extends MovableObject {
 
   moveLeft = this.moveLeft();
 
-  constructor(x, y, otherDirection, collectedBottles) {
+  constructor(x, y, otherDirection) {
     super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
     this.loadImages(this.IMAGES_BOTTLE_THROWING);
     this.loadImages(this.IMAGES_BOTTLE_SPLASH);
     this.height = 70;
     this.width = 70;
-    this.throw(100, 150, collectedBottles);
     this.x = x;
     this.y = y;
+    this.otherDirection = otherDirection;
     this.offset = {
       top: 10,
       left: 15,
       right: 15,
       bottom: 10,
     };
-    this.otherDirection = otherDirection;
-  }
+    this.throw();
+}
 
   setCollectedBottles(collectedBottles) {
     this.collectedBottles = collectedBottles;
   }
 
-  throw(collectedBottles) {
-    if (collectedBottles > 0) {
-      collectedBottles--;
-      this.speedY = 20; // Startgeschwindigkeit nach unten
-      const gravityInterval = this.applyGravity(); // Startet die Schwerkraftwirkung
+  throw() {
+    this.speedY = 20; // Startgeschwindigkeit nach unten
+    const gravityInterval = this.applyGravity(); // Startet die Schwerkraftwirkung
 
-      const movementInterval = setInterval(() => {
-
+    const movementInterval = setInterval(() => {
+        // Überprüft die Richtung und passt die horizontale Position entsprechend an
         if (this.otherDirection) {
-          this.x -= 10;
+            this.x -= 10; // Bewegt die Flasche nach links, wenn `otherDirection` wahr ist
+        } else {
+            this.x += 10; // Bewegt die Flasche nach rechts, wenn `otherDirection` falsch ist
         }
-        else {
-          this.x += 10;
-        }
-         // Bewegt die Flasche horizontal
+
         this.playAnimation(this.IMAGES_BOTTLE_THROWING); // Spielt die Wurfanimation ab
 
-        if (this.y >= 380) {
-          // Angenommen, 380 ist der Boden
-          this.splashAnimation(gravityInterval, movementInterval);
+        if (this.y >= 380) { // Angenommen, 380 ist der Boden
+            this.splashAnimation(gravityInterval, movementInterval); // Startet die Splash-Animation beim Erreichen des Bodens
         }
-      }, 25);
-    }
-  }
+    }, 25);
+}
+
 
   splashAnimation(gravityInterval, movementInterval) {
     clearInterval(gravityInterval);
