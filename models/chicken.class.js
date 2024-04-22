@@ -34,13 +34,10 @@ class Chicken extends MovableObject {
   }
 
   die() {
-    this.isDead = true; // Markieren Sie das Huhn als tot
-    this.playOneImg(this.IMAGES_DEAD); // Spielen Sie die Todesanimation ab
-
+    this.isDead = true; // Markiert das Huhn als tot
+    this.playOneImg(this.IMAGES_DEAD); // Spielt die Todesanimation ab
     setTimeout(() => {
-      this.toRemove = true;
-    }, 300);
-    
-    
-  }
+      this.toRemove = true; // Markiert das Huhn zur Entfernung nach einer Verzögerung
+    }, 200); 
+}
 }

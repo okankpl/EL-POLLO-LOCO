@@ -15,7 +15,9 @@ class ThrowableObject extends MovableObject {
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
 
-  constructor(x, y, collectedBottles) {
+  moveLeft = this.moveLeft();
+
+  constructor(x, y, otherDirection, collectedBottles) {
     super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
     this.loadImages(this.IMAGES_BOTTLE_THROWING);
     this.loadImages(this.IMAGES_BOTTLE_SPLASH);
@@ -30,6 +32,7 @@ class ThrowableObject extends MovableObject {
       right: 15,
       bottom: 10,
     };
+    this.otherDirection = otherDirection;
   }
 
   setCollectedBottles(collectedBottles) {
@@ -43,7 +46,14 @@ class ThrowableObject extends MovableObject {
       const gravityInterval = this.applyGravity(); // Startet die Schwerkraftwirkung
 
       const movementInterval = setInterval(() => {
-        this.x += 10; // Bewegt die Flasche horizontal
+
+        if (this.otherDirection) {
+          this.x -= 10;
+        }
+        else {
+          this.x += 10;
+        }
+         // Bewegt die Flasche horizontal
         this.playAnimation(this.IMAGES_BOTTLE_THROWING); // Spielt die Wurfanimation ab
 
         if (this.y >= 380) {

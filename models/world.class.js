@@ -12,7 +12,7 @@ class World {
   collectedBottles = 0;
   collectedCoins = 0;
   throwableObjects = [];
-  bottle = new ThrowableObject();
+  
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -61,19 +61,12 @@ class World {
     this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies.forEach((enemy, indexEnemy) => {
         if (this.bottleCollidingEnemy(enemy, indexBottle)) {
-          // Markieren zum Entfernen
-          enemy.isDead = true; // Setzt den Todestatus des Feindes (Huhn)
           enemy.die(); // Ruft die Sterbemethode auf
-          this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
-
-          setTimeout(() => {
-            enemy.toRemove = true;
-          }, 1000);
         }
       });
     });
 
-    // Filter, um nur Gegner zu behalten, die nicht markiert sind
+    // Filtern Sie die Feinde heraus, die entfernt werden sollen
     this.level.enemies = this.level.enemies.filter((enemy) => !enemy.toRemove);
   }
 
@@ -84,16 +77,10 @@ class World {
         this.character.isAboveGround() &&
         this.character.speedY < 0
       ) {
-        enemy.isDead = true; // Setzt den Todestatus des Feindes (Huhn)
         enemy.die(); // Ruft die Sterbemethode auf
         this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
-
-        setTimeout(() => {
-          return false;
-        }, 1000);
-        // Entfernen des Gegners aus der Liste
       }
-      return true; // Behalten des Gegners in der Liste
+      return !enemy.toRemove; // Behalten des Gegners in der Liste, wenn er nicht zur Entfernung markiert ist
     });
   }
 
@@ -141,7 +128,8 @@ class World {
     if (this.keyboard.D && this.collectedBottles > 0) {
       let bottle = new ThrowableObject(
         this.character.x + 50,
-        this.character.y + 100
+        this.character.y + 100,
+        this.character.otherDirection
       );
       this.throwableObjects.push(bottle);
       this.collectedBottles--;
