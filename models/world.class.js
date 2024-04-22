@@ -59,40 +59,46 @@ class World {
 
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
-      const toRemove = [];
-      hitByBottle = true;
       this.level.enemies.forEach((enemy, indexEnemy) => {
         if (this.bottleCollidingEnemy(enemy, indexBottle)) {
-          toRemove.push(indexEnemy);
+          // Markieren zum Entfernen
+          enemy.isDead = true; // Setzt den Todestatus des Feindes (Huhn)
+          enemy.die(); // Ruft die Sterbemethode auf
+          this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
+
+          setTimeout(() => {
+            enemy.toRemove = true;
+          }, 1000);
         }
       });
-      toRemove.reverse().forEach((index) => {
-        setTimeout(() => {
-          this.level.enemies.splice(index, 1);
-        }, 500);
-      });
     });
+
+    // Filter, um nur Gegner zu behalten, die nicht markiert sind
+    this.level.enemies = this.level.enemies.filter((enemy) => !enemy.toRemove);
   }
 
   jumpKill() {
-    this.level.enemies.forEach((enemy) => {
+    this.level.enemies = this.level.enemies.filter((enemy) => {
       if (
         this.character.isColliding(enemy) &&
         this.character.isAboveGround() &&
         this.character.speedY < 0
       ) {
-        
-        setTimeout(() => {
-          this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
-        }, 300);
+        enemy.isDead = true; // Setzt den Todestatus des Feindes (Huhn)
+        enemy.die(); // Ruft die Sterbemethode auf
+        this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
 
-        this.jumpAfterKill();
+        setTimeout(() => {
+          return false;
+        }, 1000);
+        // Entfernen des Gegners aus der Liste
       }
+      return true; // Behalten des Gegners in der Liste
     });
   }
 
   jumpAfterKill() {
-    if (this.character.y > 70) {
+    if (this.character.y > 60) {
       this.character.speedY = 10;
     }
   }
