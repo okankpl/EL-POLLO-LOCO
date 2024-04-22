@@ -12,7 +12,6 @@ class World {
   collectedBottles = 0;
   collectedCoins = 0;
   throwableObjects = [];
-  
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -58,19 +57,19 @@ class World {
   }
 
   bottleKill() {
-    if (this instanceof Chicken) {
-      this.throwableObjects.forEach((bottle, indexBottle) => {
+    this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies.forEach((enemy, indexEnemy) => {
         if (this.bottleCollidingEnemy(enemy, indexBottle)) {
-          enemy.die(); // Ruft die Sterbemethode auf
+          if (enemy instanceof Chicken) {
+            enemy.die();
+          }
+          // Ruft die Sterbemethode auf
         }
       });
     });
 
     // Filtern Sie die Feinde heraus, die entfernt werden sollen
     this.level.enemies = this.level.enemies.filter((enemy) => !enemy.toRemove);
-    }
-    
   }
 
   jumpKill() {
@@ -80,8 +79,10 @@ class World {
         this.character.isAboveGround() &&
         this.character.speedY < 0
       ) {
-        enemy.die(); // Ruft die Sterbemethode auf
-        this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
+        if (enemy instanceof chicken) {
+          enemy.die(); // Ruft die Sterbemethode auf
+          this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
+        }
       }
       return !enemy.toRemove; // Behalten des Gegners in der Liste, wenn er nicht zur Entfernung markiert ist
     });
@@ -129,16 +130,16 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.collectedBottles > 0) {
-        let bottle = new ThrowableObject(
-            this.character.x + 50, 
-            this.character.y + 100, 
-            this.character.otherDirection // Hier wird nur die Richtung übergeben, keine Flaschenzählung verändert
-        );
-        this.throwableObjects.push(bottle);
-        this.collectedBottles--; // Korrekte Stelle, um die Flaschen zu dekrementieren
-        this.bottleStatusBar.setPercentage(this.collectedBottles);
+      let bottle = new ThrowableObject(
+        this.character.x + 50,
+        this.character.y + 100,
+        this.character.otherDirection // Hier wird nur die Richtung übergeben, keine Flaschenzählung verändert
+      );
+      this.throwableObjects.push(bottle);
+      this.collectedBottles--; // Korrekte Stelle, um die Flaschen zu dekrementieren
+      this.bottleStatusBar.setPercentage(this.collectedBottles);
     }
-}
+  }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
