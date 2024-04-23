@@ -53,31 +53,33 @@ class World {
   }
 
   playGameOverSound() {
-    if (this.character.health <= 0) {
-      this.background_music.loop = false;
-      this.gameOver_sound.play();
-      this.background_music.pause();
+    if (this.character.health <= 0 && !this.gameOverPlayed) {
+        this.background_music.pause();
+        this.gameOver_sound.play();
+        clearInterval(this.gameInterval);  // Stoppt das Spielintervall
+        clearInterval(this.throwInterval);
+        clearInterval(this.killInterval);
+        this.gameOverPlayed = true;  // Stellt sicher, dass der Sound nur einmal abgespielt wird
     }
-  }
+}
 
   run() {
-    setInterval(() => {
-      this.checkCollisions();
-
-      this.collectingBottles();
-      this.collectingCoins();
+    this.gameInterval = setInterval(() => {
+        this.checkCollisions();
+        this.collectingBottles();
+        this.collectingCoins();
+        this.playGameOverSound();  // Überprüfung, ob der Game-Over-Sound abgespielt werden soll
     }, 300);
 
-    setInterval(() => {
-      this.checkThrowObjects();
-      this.playGameOverSound();
+    this.throwInterval = setInterval(() => {
+        this.checkThrowObjects();
     }, 400);
 
-    setInterval(() => {
-      this.bottleKill();
-      this.jumpKill();
+    this.killInterval = setInterval(() => {
+        this.bottleKill();
+        this.jumpKill();
     }, 50);
-  }
+}
 
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
