@@ -14,6 +14,7 @@ class World {
   throwableObjects = [];
   gotKilledByJump = false;
   background_music = new Audio('audio/background-music.mp3');
+  gameOver_sound = new Audio("audio/game-over.mp3");
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -34,7 +35,7 @@ class World {
       this.chicken.chicken_dead // Stellen Sie sicher, dass die Referenz korrekt ist
     ];
     this.muted = false;
-
+    
   }
 
   toggleMute() {
@@ -51,6 +52,14 @@ class World {
     this.character.animate();
   }
 
+  playGameOverSound() {
+    if (this.character.health <= 0) {
+      this.background_music.loop = false;
+      this.gameOver_sound.play();
+      this.background_music.pause();
+    }
+  }
+
   run() {
     setInterval(() => {
       this.checkCollisions();
@@ -61,6 +70,7 @@ class World {
 
     setInterval(() => {
       this.checkThrowObjects();
+      this.playGameOverSound();
     }, 400);
 
     setInterval(() => {
