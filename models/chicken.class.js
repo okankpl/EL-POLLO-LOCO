@@ -7,11 +7,10 @@ class Chicken extends MovableObject {
     "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
     "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
-
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
   isDead = false;
   currentImage = 0;
-
+  chicken_dead = new Audio('audio/chicken-dead.mp3')
   constructor() {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.x = 600 + Math.random() * 1400;
@@ -34,10 +33,8 @@ class Chicken extends MovableObject {
   }
 
   die() {
+    this.chicken_dead.play();
     this.isDead = true; // Markiert das Huhn als tot
-    this.playOneImg(this.IMAGES_DEAD); // Spielt die Todesanimation ab
-    setTimeout(() => {
-      this.toRemove = true; // Markiert das Huhn zur Entfernung nach einer Verzögerung
-    }, 200); 
+    this.playOneImg(this.IMAGES_DEAD); // Spielt die Todesanimation ab   
 }
 }

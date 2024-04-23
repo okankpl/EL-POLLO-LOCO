@@ -23,6 +23,20 @@ canvas {
     background-color: black;
 }
 
+.instructions {
+    display: flex;
+    
+    gap: 10px;
+    width: 100%;
+}
+
+#muteButton {
+    height: 50px;
+    width: 150px;
+   
+    font-size: 32px;
+}
+
 @font-face {
     font-family: 'zabars';
     src: url('fonts/Zabars.ttf') format('truetype');

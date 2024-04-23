@@ -15,9 +15,10 @@ class ThrowableObject extends MovableObject {
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
 
-  moveLeft = this.moveLeft();
+  throw_sound = new Audio("audio/throw.mp3");
+  splash_sound = new Audio("audio/breaking_bottle.mp3");
 
-  constructor(x, y, otherDirection) {
+  constructor(x, y, otherDirection, world) {
     super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
     this.loadImages(this.IMAGES_BOTTLE_THROWING);
     this.loadImages(this.IMAGES_BOTTLE_SPLASH);
@@ -26,54 +27,52 @@ class ThrowableObject extends MovableObject {
     this.x = x;
     this.y = y;
     this.otherDirection = otherDirection;
+    this.world = world;
     this.offset = {
-      top: 10,
-      left: 15,
-      right: 15,
-      bottom: 10,
+      top: 20,
+      left: 25,
+      right: 25,
+      bottom: 20,
     };
     this.throw();
-}
-
-  setCollectedBottles(collectedBottles) {
-    this.collectedBottles = collectedBottles;
   }
 
   throw() {
-    this.speedY = 20; // Startgeschwindigkeit nach unten
-    const gravityInterval = this.applyGravity(); // Startet die Schwerkraftwirkung
-
+    this.speedY = 20;
+    const gravityInterval = this.applyGravity();
+    this.throw_sound.play();
     const movementInterval = setInterval(() => {
-        // Überprüft die Richtung und passt die horizontale Position entsprechend an
-        if (this.otherDirection) {
-            this.x -= 10; // Bewegt die Flasche nach links, wenn `otherDirection` wahr ist
-        } else {
-            this.x += 10; // Bewegt die Flasche nach rechts, wenn `otherDirection` falsch ist
-        }
+      if (this.otherDirection) {
+        this.x -= 10;
+      } else {
+        this.x += 10;
+      }
 
-        this.playAnimation(this.IMAGES_BOTTLE_THROWING); // Spielt die Wurfanimation ab
-
-        if (this.y >= 380) { // Angenommen, 380 ist der Boden
-            this.splashAnimation(gravityInterval, movementInterval); // Startet die Splash-Animation beim Erreichen des Bodens
-        }
+      this.playAnimation(this.IMAGES_BOTTLE_THROWING);
+      this.splash_sound.play();
+      if (this.y >= 380) {
+        
+        this.splashAnimation(gravityInterval, movementInterval);
+      }
     }, 25);
-}
-
+  }
 
   splashAnimation(gravityInterval, movementInterval) {
+    
     clearInterval(gravityInterval);
     clearInterval(movementInterval);
     this.speedY = 0;
     this.y = 380;
 
-    let animationCount = 0; // Zähler für die Anzahl der Splash-Animationen
+    let animationCount = 0;
     const splashAnimation = setInterval(() => {
+      
       this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
 
       if (++animationCount > 6) {
-        clearInterval(splashAnimation); // Beendet das Intervall nach 6 Durchläufen
-        this.toRemove = true;
+        clearInterval(splashAnimation);
+        this.world.removeThrowableObject(this);
       }
-    }, 50);
+    }, 100);
   }
 }

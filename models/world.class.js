@@ -12,6 +12,7 @@ class World {
   collectedBottles = 0;
   collectedCoins = 0;
   throwableObjects = [];
+  gotKilledByJump = false;
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -24,16 +25,20 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.character.animate();
   }
 
   run() {
     setInterval(() => {
       this.checkCollisions();
-      this.checkThrowObjects();
+
       this.collectingBottles();
       this.collectingCoins();
-      this.updateGameObjects();
-    }, 200);
+    }, 300);
+
+    setInterval(() => {
+      this.checkThrowObjects();
+    }, 400);
 
     setInterval(() => {
       this.bottleKill();
@@ -43,48 +48,49 @@ class World {
 
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
+      if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.health);
       }
     });
-  }
-
-  updateGameObjects() {
-    this.throwableObjects = this.throwableObjects.filter(
-      (obj) => !obj.toRemove
-    ); // Entfernt alle Objekte, die zur Entfernung markiert sind
+    this.gotKilledByJump = false;
   }
 
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
-      this.level.enemies.forEach((enemy, indexEnemy) => {
-        if (this.bottleCollidingEnemy(enemy, indexBottle)) {
-          if (enemy instanceof Chicken) {
-            enemy.die();
+      for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+        if (this.bottleCollidingEnemy(this.level.enemies[i], indexBottle)) {
+          if (this.level.enemies[i] instanceof Chicken) {
+            this.level.enemies[i].die();
+            this.level.enemies.splice(i, 1);
           }
-          // Ruft die Sterbemethode auf
         }
-      });
+      }
     });
-
-    // Filtern Sie die Feinde heraus, die entfernt werden sollen
-    this.level.enemies = this.level.enemies.filter((enemy) => !enemy.toRemove);
   }
 
   jumpKill() {
-    this.level.enemies = this.level.enemies.filter((enemy) => {
+    this.level.enemies.forEach((enemy, index) => {
       if (
         this.character.isColliding(enemy) &&
         this.character.isAboveGround() &&
         this.character.speedY < 0
       ) {
-        if (enemy instanceof chicken) {
-          enemy.die(); // Ruft die Sterbemethode auf
-          this.jumpAfterKill(); // Zusätzlicher Sprung nach dem Töten
+        if (enemy instanceof Chicken && !enemy.isDead) {
+          enemy.isDead = true;
+          this.gotKilledByJump = true;
+          enemy.die();
+          this.jumpAfterKill();
+          setTimeout(() => {
+            if (enemy.isDead) {
+              const enemyIndex = this.level.enemies.indexOf(enemy);
+              if (enemyIndex > -1) {
+                this.level.enemies.splice(enemyIndex, 1);
+              }
+            }
+          }, 300);
         }
       }
-      return !enemy.toRemove; // Behalten des Gegners in der Liste, wenn er nicht zur Entfernung markiert ist
     });
   }
 
@@ -133,11 +139,19 @@ class World {
       let bottle = new ThrowableObject(
         this.character.x + 50,
         this.character.y + 100,
-        this.character.otherDirection // Hier wird nur die Richtung übergeben, keine Flaschenzählung verändert
+        this.character.otherDirection,
+        this // Übergabe der Weltinstanz
       );
       this.throwableObjects.push(bottle);
-      this.collectedBottles--; // Korrekte Stelle, um die Flaschen zu dekrementieren
+      this.collectedBottles--;
       this.bottleStatusBar.setPercentage(this.collectedBottles);
+    }
+  }
+
+  removeThrowableObject(throwableObject) {
+    const index = this.throwableObjects.indexOf(throwableObject);
+    if (index > -1) {
+      this.throwableObjects.splice(index, 1); // Entfernt das Objekt aus dem Array
     }
   }
 
