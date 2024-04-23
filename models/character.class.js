@@ -72,7 +72,7 @@ class Character extends MovableObject {
   jumping_sound = new Audio("audio/jump.mp3");
   snoring_sound = new Audio("audio/snoring.mp3");
   hurt_sound = new Audio("audio/hurt.mp3");
-  gameOver_sound = new Audio("audio/game-over.mp3");
+  
 
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
