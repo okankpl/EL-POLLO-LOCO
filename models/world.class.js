@@ -13,6 +13,7 @@ class World {
   collectedCoins = 0;
   throwableObjects = [];
   gotKilledByJump = false;
+  background_music = new Audio('audio/background-music.mp3');
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -21,6 +22,28 @@ class World {
     this.draw();
     this.setWorld(keyboard);
     this.run();
+    this.background_music.loop = true;
+    this.background_music.play();
+    this.gameSounds = [
+      this.character.walking_sound,
+      this.character.jumping_sound,
+      this.character.snoring_sound,
+      this.character.hurt_sound,
+      this.gameOver_sound,
+      this.background_music,
+      this.chicken.chicken_dead // Stellen Sie sicher, dass die Referenz korrekt ist
+    ];
+    this.muted = false;
+
+  }
+
+  toggleMute() {
+    this.muted = !this.muted;
+    this.gameSounds.forEach(sound => {
+      if (sound) {
+        sound.muted = this.muted;
+      }
+    });
   }
 
   setWorld() {

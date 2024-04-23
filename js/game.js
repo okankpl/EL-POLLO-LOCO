@@ -9,6 +9,10 @@ function init() {
   console.log("My Character is,", world.character, world.chicken);
 }
 
+document.getElementById('muteButton').addEventListener('click', function() {
+  world.toggleMute();
+});
+
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 37) {
     keyboard.LEFT = true;
