@@ -15,6 +15,7 @@ class World {
   gotKilledByJump = false;
   background_music = new Audio('audio/background-music.mp3');
   gameOver_sound = new Audio("audio/game-over.mp3");
+  gameOverPlayed = false;
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -73,7 +74,7 @@ class World {
 
     this.throwInterval = setInterval(() => {
         this.checkThrowObjects();
-    }, 400);
+    }, 300);
 
     this.killInterval = setInterval(() => {
         this.bottleKill();

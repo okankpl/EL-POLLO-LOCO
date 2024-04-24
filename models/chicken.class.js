@@ -22,6 +22,8 @@ class Chicken extends MovableObject {
 
   animate() {
     if (!this.isDead) {
+
+      const chickenIntervall = 
       setInterval(() => {
         this.moveLeft();
       }, 1000 / 60);

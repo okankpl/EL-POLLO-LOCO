@@ -1,0 +1,4 @@
+class EndbossStatusBar extends DrawableObject {
+
+
+}
