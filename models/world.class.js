@@ -1,21 +1,25 @@
 class World {
   character = new Character();
   chicken = new Chicken();
+  endboss = new Endboss(this);
   level = level1;
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
   statusBar = new Statusbar();
+  endbossStatusbar = new EndbossStatusBar();
   coinsStatusBar = new CoinStatusbar();
   bottleStatusBar = new BottleStatusbar();
   collectedBottles = 0;
   collectedCoins = 0;
   throwableObjects = [];
   gotKilledByJump = false;
-  background_music = new Audio('audio/background-music.mp3');
+  background_music = new Audio("audio/background-music.mp3");
   gameOver_sound = new Audio("audio/game-over.mp3");
   gameOverPlayed = false;
+  endbossHealth = 5;
+  bottleHit = false;
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -24,8 +28,7 @@ class World {
     this.draw();
     this.setWorld(keyboard);
     this.run();
-    this.background_music.loop = true;
-    this.background_music.play();
+
     this.gameSounds = [
       this.character.walking_sound,
       this.character.jumping_sound,
@@ -33,15 +36,15 @@ class World {
       this.character.hurt_sound,
       this.gameOver_sound,
       this.background_music,
-      this.chicken.chicken_dead // Stellen Sie sicher, dass die Referenz korrekt ist
+      this.chicken.chicken_dead, // Stellen Sie sicher, dass die Referenz korrekt ist
     ];
     this.muted = false;
-    
+    this.showEndbossStatus = false;
   }
 
   toggleMute() {
     this.muted = !this.muted;
-    this.gameSounds.forEach(sound => {
+    this.gameSounds.forEach((sound) => {
       if (sound) {
         sound.muted = this.muted;
       }
@@ -55,32 +58,43 @@ class World {
 
   playGameOverSound() {
     if (this.character.health <= 0 && !this.gameOverPlayed) {
-        this.background_music.pause();
-        this.gameOver_sound.play();
-        clearInterval(this.gameInterval);  // Stoppt das Spielintervall
-        clearInterval(this.throwInterval);
-        clearInterval(this.killInterval);
-        this.gameOverPlayed = true;  // Stellt sicher, dass der Sound nur einmal abgespielt wird
+      this.background_music.pause();
+      this.gameOver_sound.play();
+      // clearInterval(this.gameInterval); // Stoppt das Spielintervall
+      // clearInterval(this.throwInterval);
+      // clearInterval(this.killInterval);
+      this.gameOverPlayed = true; // Stellt sicher, dass der Sound nur einmal abgespielt wird
+    } else if (!this.gameOverPlayed) {
+      this.background_music.loop = true;
+      this.background_music.play();
     }
-}
+  }
 
   run() {
     this.gameInterval = setInterval(() => {
-        this.checkCollisions();
-        this.collectingBottles();
-        this.collectingCoins();
-        this.playGameOverSound();  // Überprüfung, ob der Game-Over-Sound abgespielt werden soll
+      this.checkCollisions();
+      this.collectingBottles();
+      this.collectingCoins();
+      this.playGameOverSound();
+      this.bottleHitEndboss();
+      this.showEndbossStatusbar();
     }, 300);
 
     this.throwInterval = setInterval(() => {
-        this.checkThrowObjects();
+      this.checkThrowObjects();
     }, 300);
 
     this.killInterval = setInterval(() => {
-        this.bottleKill();
-        this.jumpKill();
+      this.bottleKill();
+      this.jumpKill();
     }, 50);
-}
+  }
+
+  showEndbossStatusbar() {
+    if (this.character.x >= 1500) {
+      this.showEndbossStatus = true;
+    }
+  }
 
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
@@ -98,11 +112,32 @@ class World {
         if (this.bottleCollidingEnemy(this.level.enemies[i], indexBottle)) {
           if (this.level.enemies[i] instanceof Chicken) {
             this.level.enemies[i].die();
-            this.level.enemies.splice(i, 1);
+            setTimeout(() => {
+              this.level.enemies.splice(i, 1);
+            }, 300);
           }
         }
       }
     });
+  }
+
+  bottleHitEndboss() {
+    this.throwableObjects.forEach((bottle, indexBottle) => {
+      if (this.bottleCollidingEnemy(this.endboss, indexBottle) && !bottle.hit) {
+        this.decreaseEndbossHealth(bottle);
+      }
+    });
+  
+    if (this.endbossHealth <= 0) {
+      
+      this.endboss.die();
+    }
+  }
+
+  decreaseEndbossHealth(bottle) {
+    this.endbossHealth--;
+    this.endbossStatusbar.setPercentage(this.endbossHealth);
+    bottle.hit = true;
   }
 
   jumpKill() {
@@ -176,7 +211,7 @@ class World {
         this.character.x + 50,
         this.character.y + 100,
         this.character.otherDirection,
-        this // Übergabe der Weltinstanz
+        this
       );
       this.throwableObjects.push(bottle);
       this.collectedBottles--;
@@ -195,8 +230,13 @@ class World {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
+    if (this.showEndbossStatus) {
+      this.addToMap(this.endbossStatusbar);
+    }
+
     this.addToMap(this.bottleStatusBar);
     this.addToMap(this.coinsStatusBar);
 
@@ -204,7 +244,7 @@ class World {
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
     this.addToMap(this.character);
-    this.addObjectsToMap(this.level.clouds);
+
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);

@@ -35,38 +35,34 @@ class ThrowableObject extends MovableObject {
       bottom: 20,
     };
     this.throw();
+    this.hit = false;
   }
 
   throw() {
     this.speedY = 20;
-    const gravityInterval = this.applyGravity();
     this.throw_sound.play();
+    const gravityInterval = this.applyGravity();
     const movementInterval = setInterval(() => {
       if (this.otherDirection) {
         this.x -= 10;
       } else {
         this.x += 10;
       }
-
       this.playAnimation(this.IMAGES_BOTTLE_THROWING);
       this.splash_sound.play();
       if (this.y >= 380) {
-        
-        this.splashAnimation(gravityInterval, movementInterval);
+        clearInterval(gravityInterval);
+        clearInterval(movementInterval);
+        this.splashAnimation();
       }
     }, 25);
   }
 
-  splashAnimation(gravityInterval, movementInterval) {
-    
-    clearInterval(gravityInterval);
-    clearInterval(movementInterval);
+  splashAnimation() {
     this.speedY = 0;
     this.y = 380;
-
     let animationCount = 0;
     const splashAnimation = setInterval(() => {
-      
       this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
 
       if (++animationCount > 6) {
