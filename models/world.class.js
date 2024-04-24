@@ -130,7 +130,7 @@ class World {
   
     if (this.endbossHealth <= 0) {
       
-      this.endboss.die();
+      this.endboss.endbossDied();
     }
   }
 
