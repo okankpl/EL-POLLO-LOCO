@@ -40,10 +40,10 @@ class Endboss extends MovableObject {
       if (this.health <= 0) {
         this.playAnimation(this.IMAGES_DEAD);
       }
-      if (!this.x == 2100) {
+      if (this.x == 2100) {
         this.playAnimation(this.IMAGES_ALERT);
       }
-      if (this.x < 2100) {
+      if (this.x < 2100 && this.health > 0) {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 300);
@@ -52,7 +52,9 @@ class Endboss extends MovableObject {
   moveEndboss() {
     setTimeout(() => {
       setInterval(() => {
-        this.moveLeft();
+        if (this.health > 0) {
+          this.moveLeft();
+        }
       }, 2000 / 60);
     }, 3000);
   }
