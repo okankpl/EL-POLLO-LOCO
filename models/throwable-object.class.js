@@ -40,33 +40,32 @@ class ThrowableObject extends MovableObject {
 
   throw() {
     this.speedY = 20;
+    this.speedX = 10;
     this.throw_sound.play();
-    const gravityInterval = this.applyGravity();
-    const movementInterval = setInterval(() => {
+    this.applyGravity();
+    setInterval(() => {
       if (this.otherDirection) {
-        this.x -= 10;
+        this.x -= this.speedX;
       } else {
-        this.x += 10;
+        this.x += this.speedX;
       }
-      this.playAnimation(this.IMAGES_BOTTLE_THROWING);
       this.splash_sound.play();
-      if (this.y >= 360 || this.hit) {
-        clearInterval(gravityInterval);
-        clearInterval(movementInterval);
+      if (this.y == 377.5 || this.hit) {
+        this.speedY = 0;
+        this.speedX = 0;
         this.splashAnimation();
+      } else {
+        this.playAnimation(this.IMAGES_BOTTLE_THROWING);
       }
     }, 25);
   }
 
   splashAnimation() {
-    let animationCount = 0;
-    const splashAnimation = setInterval(() => {
+    setInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-
-      if (++animationCount > 6) {
-        clearInterval(splashAnimation);
-        this.world.removeThrowableObject(this);
-      }
     }, 100);
+    setTimeout(() => {
+      this.world.removeThrowableObject(this);
+    }, 600);
   }
 }
