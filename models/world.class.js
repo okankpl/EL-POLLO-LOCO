@@ -119,7 +119,10 @@ class World {
   encounterWithEndboss() {
     if (this.character.x >= 1500) {
       this.showEndbossStatus = true;
-      this.endboss.moveEndboss();
+      if (this.endboss.health > 0) {
+        this.endboss.moveEndboss();
+      }
+      
     }
   }
 

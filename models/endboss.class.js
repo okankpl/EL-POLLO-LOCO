@@ -17,11 +17,11 @@ class Endboss extends MovableObject {
   ];
 
   IMAGES_WALKING = [
-    'img/4_enemie_boss_chicken/1_walk/G1.png',
-    'img/4_enemie_boss_chicken/1_walk/G2.png',
-    'img/4_enemie_boss_chicken/1_walk/G3.png',
-    'img/4_enemie_boss_chicken/1_walk/G4.png',
-  ]
+    "img/4_enemie_boss_chicken/1_walk/G1.png",
+    "img/4_enemie_boss_chicken/1_walk/G2.png",
+    "img/4_enemie_boss_chicken/1_walk/G3.png",
+    "img/4_enemie_boss_chicken/1_walk/G4.png",
+  ];
 
   constructor() {
     super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
@@ -35,8 +35,9 @@ class Endboss extends MovableObject {
   }
 
   animate() {
+    console.log(this.x);
     setInterval(() => {
-      if (this.isDead()) {
+      if (this.health <= 0) {
         this.playAnimation(this.IMAGES_DEAD);
       }
       if (!this.x == 2100) {
@@ -49,8 +50,10 @@ class Endboss extends MovableObject {
   }
 
   moveEndboss() {
-    setInterval(() => {
-      this.moveLeft();
-    }, 1000 / 60);
+    setTimeout(() => {
+      setInterval(() => {
+        this.moveLeft();
+      }, 2000 / 60);
+    }, 3000);
   }
 }
