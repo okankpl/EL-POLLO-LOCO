@@ -16,35 +16,41 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  IMAGES_WALKING = [
+    'img/4_enemie_boss_chicken/1_walk/G1.png',
+    'img/4_enemie_boss_chicken/1_walk/G2.png',
+    'img/4_enemie_boss_chicken/1_walk/G3.png',
+    'img/4_enemie_boss_chicken/1_walk/G4.png',
+  ]
+
   constructor() {
     super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_WALKING);
     this.x = 2100;
     this.animate();
-
+    this.health = 5;
     this.endbossIsDead = false;
   }
 
   animate() {
     setInterval(() => {
-      if (this.endbossIsDead) {
-        console.log("Playing dead animation");
+      if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
       }
-      else if(!this.endbossIsDead) {
+      if (!this.x == 2100) {
         this.playAnimation(this.IMAGES_ALERT);
-        
+      }
+      if (this.x < 2100) {
+        this.playAnimation(this.IMAGES_WALKING);
       }
     }, 300);
-    
-   
-    }
-  
+  }
 
-  endbossDied() {
-    this.endbossIsDead = true;
-    this.animate();
-    
+  moveEndboss() {
+    setInterval(() => {
+      this.moveLeft();
+    }, 1000 / 60);
   }
 }
