@@ -155,6 +155,7 @@ class World {
   setJumpkillTrue(enemy) {
     enemy.isDead = true;
     this.gotKilledByJump = true;
+
     this.jumpAfterKill();
   }
 
