@@ -10,7 +10,7 @@ class Chicken extends MovableObject {
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
   isDead = false;
   currentImage = 0;
-  chicken_dead = new Audio('audio/chicken-dead.mp3')
+  chicken_dead = new Audio("audio/chicken-dead.mp3");
   constructor() {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.x = 600 + Math.random() * 1400;
@@ -28,21 +28,18 @@ class Chicken extends MovableObject {
 
   animate() {
     if (!this.isDead) {
-
-      const chickenIntervall = 
-      setInterval(() => {
+      const chickenIntervall = setInterval(() => {
         this.moveLeft();
       }, 1000 / 60);
 
       setInterval(() => {
-        this.playAnimation(this.IMAGES_WALKING);
+        if (!this.isDead) {
+          this.playAnimation(this.IMAGES_WALKING);
+        } else {
+          this.chicken_dead.play();
+          this.playOneImg(this.IMAGES_DEAD);
+        }
       }, 200);
     }
   }
-
-  die() {
-    this.chicken_dead.play();
-    this.isDead = true; // Markiert das Huhn als tot
-    this.playOneImg(this.IMAGES_DEAD); // Spielt die Todesanimation ab   
-}
 }

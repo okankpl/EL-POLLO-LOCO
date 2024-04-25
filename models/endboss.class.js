@@ -46,10 +46,11 @@ class Endboss extends MovableObject {
       if (this.x < 2100 && this.health > 0) {
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 300);
+    }, 200);
   }
 
   moveEndboss() {
+    this.speed
     setTimeout(() => {
       setInterval(() => {
         if (this.health > 0) {

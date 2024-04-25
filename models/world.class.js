@@ -92,7 +92,7 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
-        this.character.hit();
+        this.character.hit(5);
         this.statusBar.setPercentage(this.character.health);
       }
     });
@@ -102,10 +102,7 @@ class World {
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies = this.level.enemies.filter((enemy, index) => {
-        if (
-          this.bottleCollidingEnemy(enemy, indexBottle) &&
-          enemy instanceof Chicken
-        ) {
+        if (this.bottleCollidingEnemy(enemy, indexBottle) && enemy instanceof Chicken) {
           setTimeout(() => {
             enemy.die();
           }, 300);
@@ -119,10 +116,7 @@ class World {
   encounterWithEndboss() {
     if (this.character.x >= 1500) {
       this.showEndbossStatus = true;
-      if (this.endboss.health > 0) {
         this.endboss.moveEndboss();
-      }
-      
     }
   }
 
@@ -139,7 +133,7 @@ class World {
   }
 
   decreaseEndbossHealth(bottle) {
-    this.endboss.health--;
+    this.endboss.hit(1);
     this.endbossStatusbar.setPercentage(this.endboss.health);
     bottle.hit = true;
   }
@@ -161,7 +155,6 @@ class World {
   setJumpkillTrue(enemy) {
     enemy.isDead = true;
     this.gotKilledByJump = true;
-    enemy.die();
     this.jumpAfterKill();
   }
 
