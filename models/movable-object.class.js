@@ -38,8 +38,21 @@ class MovableObject extends DrawableObject {
     this.currentImage++;
   }
 
+  playAnimationOnce(images) {
+    if (!this.animationFinished) {
+      let i = this.currentImage % images.length;
+      let path = images[i];
+      this.img = this.imageCache[path];
+      this.currentImage++;
+
+      if (this.currentImage >= images.length) {
+        this.animationFinished = true;
+      }
+    }
+  }
+
   playOneImg(image) {
-    this.img = this.imageCache[image[0]]; // Setzen Sie das Todesbild
+    this.img = this.imageCache[image[0]]; 
   }
 
   moveRight() {

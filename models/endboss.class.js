@@ -27,20 +27,24 @@ class Endboss extends MovableObject {
   }
 
   animate() {
-    this.endbossDied;
-
     setInterval(() => {
-      if (!this.endbossIsDead) {
-        this.playAnimation(this.IMAGES_ALERT);
-      } else {
+      if (this.endbossIsDead) {
+        console.log("Playing dead animation");
         this.playAnimation(this.IMAGES_DEAD);
-        console.log("hallo");
       }
-      
-    }, 200);
-  }
+      else if(!this.endbossIsDead) {
+        this.playAnimation(this.IMAGES_ALERT);
+        
+      }
+    }, 300);
+    
+   
+    }
+  
 
   endbossDied() {
     this.endbossIsDead = true;
+    this.animate();
+    
   }
 }

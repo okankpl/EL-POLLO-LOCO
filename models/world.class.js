@@ -36,7 +36,7 @@ class World {
       this.character.hurt_sound,
       this.gameOver_sound,
       this.background_music,
-      this.chicken.chicken_dead, // Stellen Sie sicher, dass die Referenz korrekt ist
+      this.chicken.chicken_dead, 
     ];
     this.muted = false;
     this.showEndbossStatus = false;
@@ -63,7 +63,7 @@ class World {
       // clearInterval(this.gameInterval); // Stoppt das Spielintervall
       // clearInterval(this.throwInterval);
       // clearInterval(this.killInterval);
-      this.gameOverPlayed = true; // Stellt sicher, dass der Sound nur einmal abgespielt wird
+      this.gameOverPlayed = true; 
     } else if (!this.gameOverPlayed) {
       this.background_music.loop = true;
       this.background_music.play();
@@ -108,16 +108,18 @@ class World {
 
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
-      for (let i = this.level.enemies.length - 1; i >= 0; i--) {
-        if (this.bottleCollidingEnemy(this.level.enemies[i], indexBottle)) {
-          if (this.level.enemies[i] instanceof Chicken) {
-            this.level.enemies[i].die();
-            setTimeout(() => {
-              this.level.enemies.splice(i, 1);
-            }, 300);
-          }
+      this.level.enemies = this.level.enemies.filter((enemy, index) => {
+        if (
+          this.bottleCollidingEnemy(enemy, indexBottle) &&
+          enemy instanceof Chicken
+        ) {
+          setTimeout(() => {
+            enemy.die();
+          }, 300);
+          return false;
         }
-      }
+        return true;
+      });
     });
   }
 
@@ -125,11 +127,10 @@ class World {
     this.throwableObjects.forEach((bottle, indexBottle) => {
       if (this.bottleCollidingEnemy(this.endboss, indexBottle) && !bottle.hit) {
         this.decreaseEndbossHealth(bottle);
+        bottle.splashAnimation();
       }
     });
-  
     if (this.endbossHealth <= 0) {
-      
       this.endboss.endbossDied();
     }
   }
@@ -141,28 +142,34 @@ class World {
   }
 
   jumpKill() {
-    this.level.enemies.forEach((enemy, index) => {
-      if (
-        this.character.isColliding(enemy) &&
-        this.character.isAboveGround() &&
-        this.character.speedY < 0
-      ) {
+    for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+      let enemy = this.level.enemies[i];
+      if (this.characterIsAboveEnemy(enemy)) {
         if (enemy instanceof Chicken && !enemy.isDead) {
-          enemy.isDead = true;
-          this.gotKilledByJump = true;
-          enemy.die();
-          this.jumpAfterKill();
+          this.setJumpkillTrue(enemy);
           setTimeout(() => {
-            if (enemy.isDead) {
-              const enemyIndex = this.level.enemies.indexOf(enemy);
-              if (enemyIndex > -1) {
-                this.level.enemies.splice(enemyIndex, 1);
-              }
-            }
+            this.level.enemies.splice(i, 1);
           }, 300);
         }
       }
-    });
+    }
+  }
+
+  setJumpkillTrue(enemy) {
+    enemy.isDead = true;
+    this.gotKilledByJump = true;
+    enemy.die();
+    this.jumpAfterKill();
+  }
+
+  characterIsAboveEnemy(enemy) {
+    return (
+      this.character.isColliding(enemy) &&
+      this.character.isAboveGround() &&
+      this.character.speedY < 0 &&
+      enemy instanceof Chicken &&
+      !enemy.isDead
+    );
   }
 
   jumpAfterKill() {
@@ -222,7 +229,7 @@ class World {
   removeThrowableObject(throwableObject) {
     const index = this.throwableObjects.indexOf(throwableObject);
     if (index > -1) {
-      this.throwableObjects.splice(index, 1); // Entfernt das Objekt aus dem Array
+      this.throwableObjects.splice(index, 1); 
     }
   }
 

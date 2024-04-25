@@ -146,7 +146,7 @@ class Character extends MovableObject {
       ) {
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 50);
+    }, 100);
 
     setInterval(() => {
       if (this.isAboveGround()) {
