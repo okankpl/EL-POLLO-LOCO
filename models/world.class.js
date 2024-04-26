@@ -17,8 +17,8 @@ class World {
   gotKilledByJump = false;
   background_music = new Audio("audio/background-music.mp3");
   gameOver_sound = new Audio("audio/game-over.mp3");
-  gameOverPlayed = false;
   endbossHealth = 5;
+  allInttervall = [];
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -55,22 +55,23 @@ class World {
     this.character.animate();
   }
 
+  clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+  }
+
   playGameOverSound() {
-    if (this.character.health <= 0 && !this.gameOverPlayed) {
+    if (this.character.health <= 0) {
       this.background_music.pause();
       this.gameOver_sound.play();
-      // clearInterval(this.gameInterval); // Stoppt das Spielintervall
-      // clearInterval(this.throwInterval);
-      // clearInterval(this.killInterval);
-      this.gameOverPlayed = true;
-    } else if (!this.gameOverPlayed) {
-      this.background_music.loop = true;
+      this.clearAllIntervals();
+    } else {
       this.background_music.play();
+      this.background_music.loop = true;
     }
   }
 
   run() {
-    this.gameInterval = setInterval(() => {
+    setInterval(() => {
       this.checkCollisions();
       this.collectingBottles();
       this.collectingCoins();
@@ -79,11 +80,11 @@ class World {
       this.encounterWithEndboss();
     }, 300);
 
-    this.throwInterval = setInterval(() => {
+    setInterval(() => {
       this.checkThrowObjects();
     }, 300);
 
-    this.killInterval = setInterval(() => {
+    setInterval(() => {
       this.bottleKill();
       this.jumpKill();
     }, 50);
@@ -99,24 +100,10 @@ class World {
     this.gotKilledByJump = false;
   }
 
-  bottleKill() {
-    this.throwableObjects.forEach((bottle, indexBottle) => {
-      this.level.enemies = this.level.enemies.filter((enemy, index) => {
-        if (this.bottleCollidingEnemy(enemy, indexBottle) && enemy instanceof Chicken) {
-          setTimeout(() => {
-            enemy.die();
-          }, 300);
-          return false;
-        }
-        return true;
-      });
-    });
-  }
-
   encounterWithEndboss() {
     if (this.character.x >= 1500) {
       this.showEndbossStatus = true;
-        this.endboss.moveEndboss();
+      this.endboss.moveEndboss();
     }
   }
 
@@ -138,14 +125,46 @@ class World {
     bottle.hit = true;
   }
 
+  bottleKill() {
+    this.throwableObjects.forEach((bottle, indexBottle) => {
+      this.level.enemies.forEach((enemy, index) => {
+        if (
+          this.bottleCollidingEnemy(enemy, indexBottle) &&
+          enemy instanceof Chicken
+        ) {
+          enemy.health = 0;
+          enemy.chicken_dead.play();
+          setTimeout(() => {
+            const i = this.level.enemies.indexOf(enemy);
+            if (i > -1) {
+              this.removeObjectFromWorld(i);
+            }
+          }, 300);
+        }
+      });
+    });
+  }
+
+  bottleCollidingEnemy(enemy, indexBottle) {
+    let bottle = this.throwableObjects[indexBottle];
+    return (
+      bottle.x < enemy.x + enemy.width &&
+      bottle.x + bottle.width > enemy.x &&
+      bottle.y < enemy.y + enemy.height &&
+      bottle.y + bottle.height > enemy.y
+    );
+  }
+
   jumpKill() {
     for (let i = this.level.enemies.length - 1; i >= 0; i--) {
       let enemy = this.level.enemies[i];
       if (this.characterIsAboveEnemy(enemy)) {
         if (enemy instanceof Chicken && !enemy.isDead) {
           this.setJumpkillTrue(enemy);
+          enemy.chicken_dead.play();
+          this.jumpAfterKill();
           setTimeout(() => {
-            this.level.enemies.splice(i, 1);
+            this.removeObjectFromWorld(i);
           }, 300);
         }
       }
@@ -153,10 +172,8 @@ class World {
   }
 
   setJumpkillTrue(enemy) {
-    enemy.isDead = true;
+    enemy.health = 0;
     this.gotKilledByJump = true;
-
-    this.jumpAfterKill();
   }
 
   characterIsAboveEnemy(enemy) {
@@ -175,14 +192,8 @@ class World {
     }
   }
 
-  bottleCollidingEnemy(enemy, indexBottle) {
-    let bottle = this.throwableObjects[indexBottle];
-    return (
-      bottle.x < enemy.x + enemy.width &&
-      bottle.x + bottle.width > enemy.x &&
-      bottle.y < enemy.y + enemy.height &&
-      bottle.y + bottle.height > enemy.y
-    );
+  removeObjectFromWorld(i) {
+    return this.level.enemies.splice(i, 1);
   }
 
   collectingBottles() {

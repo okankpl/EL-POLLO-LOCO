@@ -32,10 +32,15 @@ class Endboss extends MovableObject {
     this.animate();
     this.health = 5;
     this.endbossIsDead = false;
+      this.offset = {
+        top: 50,
+        left: 25,
+        right: 25,
+        bottom: 25,
+      };
   }
 
   animate() {
-    console.log(this.x);
     setInterval(() => {
       if (this.health <= 0) {
         this.playAnimation(this.IMAGES_DEAD);
@@ -50,7 +55,6 @@ class Endboss extends MovableObject {
   }
 
   moveEndboss() {
-    this.speed
     setTimeout(() => {
       setInterval(() => {
         if (this.health > 0) {
