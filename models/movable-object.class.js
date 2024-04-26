@@ -20,6 +20,10 @@ class MovableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       }
+      if (this.y >= 377.5) {
+        this.y = 377.5;
+        this.speedY = 0;
+      }
     }, 1000 / 25);
   }
 
@@ -39,7 +43,7 @@ class MovableObject extends DrawableObject {
   }
 
   playOneImg(image) {
-    this.img = this.imageCache[image[0]]; 
+    this.img = this.imageCache[image[0]];
   }
 
   moveRight() {

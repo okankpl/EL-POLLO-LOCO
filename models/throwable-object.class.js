@@ -49,16 +49,13 @@ class ThrowableObject extends MovableObject {
       } else {
         this.x += this.speedX;
       }
-
+      this.splash_sound.play();
       if (this.y == 377.5 || this.hit) {
         this.speedY = 0;
         this.speedX = 0;
         this.splashAnimation();
       } else {
         this.playAnimation(this.IMAGES_BOTTLE_THROWING);
-      }
-      if (this.speedY == 0) {
-        this.splash_sound.play();
       }
     }, 25);
   }
