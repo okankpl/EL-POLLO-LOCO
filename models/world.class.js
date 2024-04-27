@@ -58,7 +58,10 @@ class World {
   }
 
   clearAllIntervals() {
-    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    setTimeout(() => {
+      for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    }, 400);
+    
   }
 
   playGameOverSound() {

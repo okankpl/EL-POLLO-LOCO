@@ -32,6 +32,12 @@ class Endboss extends MovableObject {
     'img/4_enemie_boss_chicken/3_attack/G18.png',
     'img/4_enemie_boss_chicken/3_attack/G19.png',
     'img/4_enemie_boss_chicken/3_attack/G20.png',
+  ];
+
+  IMAGES_HURT = [
+    'img/4_enemie_boss_chicken/4_hurt/G21.png',
+    'img/4_enemie_boss_chicken/4_hurt/G22.png',
+    'img/4_enemie_boss_chicken/4_hurt/G23.png',
   ]
   world;
 
@@ -64,8 +70,7 @@ class Endboss extends MovableObject {
       if (this.x < 2100 && this.health > 0) {
         this.playAnimation(this.IMAGES_WALKING);
       }
-      if (this.attackDistance < 100) {
-        console.log(this.attackDistance);
+      if (this.attackDistance < 150) {
         this.playAnimation(this.IMAGES_ATTACK);
       }
     }, 200);
