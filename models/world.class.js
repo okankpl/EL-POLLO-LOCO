@@ -84,6 +84,7 @@ class World {
       this.bottleHitEndboss();
       this.encounterWithEndboss();
       this.checkThrowObjects();
+      this.characterCollideWithEndboss()
     }, 200);
 
     setInterval(() => {
@@ -96,11 +97,21 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
-        this.character.hit(5);
-        this.statusBar.setPercentage(this.character.health);
+       this.decreaseCharacterHealth();
       }
     });
     this.gotKilledByJump = false;
+  }
+
+  decreaseCharacterHealth() {
+    this.character.hit(5);
+    this.statusBar.setPercentage(this.character.health);
+  }
+
+  characterCollideWithEndboss() {
+    if (this.character.isColliding(this.endboss)) {
+      this.character.health = 0;
+    }
   }
 
   encounterWithEndboss() {

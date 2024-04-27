@@ -87,8 +87,8 @@ class Endboss extends MovableObject {
         if (this.health > 0) {
           this.moveLeft();
         }
-      }, 2000 / 60);
-    }, 2000);
+      }, 1500 / 60);
+    }, 1000);
   }
 
 }
