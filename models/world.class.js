@@ -115,6 +115,7 @@ class World {
       if (this.bottleCollidingEnemy(this.endboss, indexBottle) && !bottle.hit) {
         this.decreaseEndbossHealth(bottle);
         bottle.splashAnimation();
+        this.endboss.gotHitByBottle();
       }
     });
     if (this.endboss.health <= 0) {

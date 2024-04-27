@@ -47,6 +47,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ATTACK);
+    this.loadImages(this.IMAGES_HURT);
     this.x = 2100;
     this.animate();
     this.health = 5;
@@ -72,6 +73,10 @@ class Endboss extends MovableObject {
       }
       if (this.attackDistance < 150) {
         this.playAnimation(this.IMAGES_ATTACK);
+      }
+      if (this.hitByBottle) {
+        this.playAnimation(this.IMAGES_HURT);
+        this.hitByBottle = false;
       }
     }, 200);
   }

@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
   lastHit = 0;
   isVisible = true;
   attackDistance;
+  hitByBottle = false;
 
   offset = {
     left: 0,
@@ -87,5 +88,9 @@ class MovableObject extends DrawableObject {
     let timePassed = new Date().getTime() - this.lastHit;
     timePassed = timePassed / 1000;
     return timePassed < 0.5;
+  }
+
+  gotHitByBottle() {
+    return this.hitByBottle = true;
   }
 }
