@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
   health = 100;
   lastHit = 0;
   isVisible = true;
+  attackDistance;
 
   offset = {
     left: 0,
@@ -35,6 +36,11 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  attackRange(endbossX, characterX) {
+    this.attackDistance = endbossX - characterX;
+    return this.attackDistance;
+  }
+  
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];

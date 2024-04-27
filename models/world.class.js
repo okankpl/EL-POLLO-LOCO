@@ -1,7 +1,7 @@
 class World {
   character = new Character();
   chicken = new Chicken();
-  endboss = new Endboss(this);
+  endboss = new Endboss();
   chick = new Chick();
   level = level1;
   canvas;
@@ -54,6 +54,7 @@ class World {
   setWorld() {
     this.character.world = this;
     this.character.animate();
+    this.endboss.world = this;
   }
 
   clearAllIntervals() {
@@ -85,6 +86,7 @@ class World {
     setInterval(() => {
       this.bottleKill();
       this.jumpKill();
+      this.endboss.attackRange(this.endboss.x, this.character.x);
     }, 50);
   }
 
