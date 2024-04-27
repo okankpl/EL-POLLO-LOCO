@@ -6,7 +6,7 @@ function init() {
   canvas = document.getElementById("canvas");
   keyboard = new Keyboard();
   world = new World(canvas, keyboard);
-  console.log("My Character is,", world.character, world.chicken);
+  console.log("My Character is,", world.character, world.chicken,world.chick);
 }
 
 document.getElementById('muteButton').addEventListener('click', function() {

@@ -2,6 +2,7 @@ class World {
   character = new Character();
   chicken = new Chicken();
   endboss = new Endboss(this);
+  chick = new Chick();
   level = level1;
   canvas;
   ctx;
@@ -64,7 +65,6 @@ class World {
       this.background_music.pause();
       this.gameOver_sound.play();
       this.clearAllIntervals();
-      
     } else {
       this.background_music.play();
       this.background_music.loop = true;
@@ -79,7 +79,7 @@ class World {
       this.playGameOverSound();
       this.bottleHitEndboss();
       this.encounterWithEndboss();
-       this.checkThrowObjects();
+      this.checkThrowObjects();
     }, 200);
 
     setInterval(() => {
@@ -126,7 +126,9 @@ class World {
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies.forEach((enemy, index) => {
-        if (this.bottleCollidingEnemy(enemy, indexBottle) && enemy instanceof Chicken
+        if (
+          this.bottleCollidingEnemy(enemy, indexBottle) &&
+          enemy instanceof Chicken
         ) {
           enemy.health = 0;
           enemy.chicken_dead.play();
@@ -155,14 +157,12 @@ class World {
     for (let i = this.level.enemies.length - 1; i >= 0; i--) {
       let enemy = this.level.enemies[i];
       if (this.characterIsAboveEnemy(enemy)) {
-        if (enemy instanceof Chicken && !enemy.isDead) {
-          this.setJumpkillTrue(enemy);
-          enemy.chicken_dead.play();
-          this.jumpAfterKill();
-          setTimeout(() => {
-            this.removeObjectFromWorld(i);
-          }, 150);
-        }
+        this.setJumpkillTrue(enemy);
+        enemy.chicken_dead.play();
+        this.jumpAfterKill(enemy);
+        setTimeout(() => {
+          this.removeObjectFromWorld(i);
+        }, 150);
       }
     }
   }
@@ -177,13 +177,14 @@ class World {
       this.character.isColliding(enemy) &&
       this.character.isAboveGround() &&
       this.character.speedY < 0 &&
-      enemy instanceof Chicken &&
-      !enemy.isDead
+      (enemy instanceof Chicken || enemy instanceof Chick)
     );
   }
 
-  jumpAfterKill() {
-    if (this.character.y > 60) {
+  jumpAfterKill(enemy) {
+    if (this.character.y > 60 && enemy instanceof Chicken) {
+      this.character.speedY = 10;
+    } else if (this.character.y == 147.5 && enemy instanceof Chick) {
       this.character.speedY = 10;
     }
   }
