@@ -3,6 +3,7 @@ class World {
   chicken = new Chicken();
   endboss = new Endboss();
   chick = new Chick();
+  throwableObject = new ThrowableObject();
   level = level1;
   canvas;
   ctx;
@@ -20,6 +21,7 @@ class World {
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
+  
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -110,7 +112,7 @@ class World {
 
   characterCollideWithEndboss() {
     if (this.character.isColliding(this.endboss)) {
-      this.character.health = 0;
+      this.character.hit(100);
     }
   }
 
@@ -143,11 +145,8 @@ class World {
   bottleKill() {
     this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies.forEach((enemy, index) => {
-        if (
-          this.bottleCollidingEnemy(enemy, indexBottle) &&
-          enemy instanceof Chicken
-        ) {
-          enemy.health = 0;
+        if (this.bottleCollidingEnemy(enemy, indexBottle)) {
+          enemy.hit(1);
           enemy.chicken_dead.play();
           setTimeout(() => {
             const i = this.level.enemies.indexOf(enemy);
@@ -185,7 +184,7 @@ class World {
   }
 
   setJumpkillTrue(enemy) {
-    enemy.health = 0;
+    enemy.hit(1);
     this.gotKilledByJump = true;
   }
 
