@@ -8,7 +8,9 @@ class Chick extends MovableObject {
     "img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
   ];
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
-  chicken_dead = new Audio("audio/chicken-dead.mp3");
+  sound = [
+    this.chicken_dead = new Audio("audio/chicken-dead.mp3")
+ ]
 
   constructor() {
     super().loadImage("img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
@@ -24,6 +26,7 @@ class Chick extends MovableObject {
       right: 5,
       bottom: 0,
     };
+    this.addAudioToArray(this.sound);
   }
 
   animate() {

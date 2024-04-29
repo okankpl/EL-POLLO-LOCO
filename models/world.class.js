@@ -20,7 +20,6 @@ class World {
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -35,21 +34,19 @@ class World {
   setWorld() {
     this.character.world = this;
     this.character.animate();
-    this.endboss.world = this;
   }
 
   stopGame() {
     setTimeout(() => {
       for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }, 400);
-    
   }
 
   playGameOverSound() {
     if (this.character.health <= 0) {
       this.gameOver_sound.play();
       this.stopGame();
-    } else{
+    } else {
       sounds[0].play();
     }
   }
@@ -63,7 +60,7 @@ class World {
       this.bottleHitEndboss();
       this.encounterWithEndboss();
       this.checkThrowObjects();
-      this.characterCollideWithEndboss()
+      this.characterCollideWithEndboss();
     }, 200);
 
     setInterval(() => {
@@ -76,7 +73,7 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
-       this.decreaseCharacterHealth();
+        this.decreaseCharacterHealth();
       }
     });
     this.gotKilledByJump = false;
@@ -105,11 +102,13 @@ class World {
       if (this.bottleCollidingEnemy(this.endboss, indexBottle) && !bottle.hit) {
         this.decreaseEndbossHealth(bottle);
         bottle.splashAnimation();
+        bottle.splash_sound.play();
         this.endboss.gotHitByBottle();
       }
     });
     if (this.endboss.health <= 0) {
       this.endboss.isDead();
+      this.chicken.chicken_dead.play();
     }
   }
 
@@ -123,8 +122,8 @@ class World {
     this.throwableObjects.forEach((bottle, indexBottle) => {
       this.level.enemies.forEach((enemy, index) => {
         if (this.bottleCollidingEnemy(enemy, indexBottle)) {
+          this.playSoundsChickenBottle();
           enemy.hit(1);
-          enemy.chicken_dead.play();
           setTimeout(() => {
             const i = this.level.enemies.indexOf(enemy);
             if (i > -1) {
@@ -134,6 +133,11 @@ class World {
         }
       });
     });
+  }
+
+  playSoundsChickenBottle() {
+    this.throwableObject.splash_sound.play();
+    enemy.chicken_dead.play();
   }
 
   bottleCollidingEnemy(enemy, indexBottle) {
