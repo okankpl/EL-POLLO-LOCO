@@ -42,7 +42,7 @@ class World {
     }, 400);
   }
 
-  playGameOverSound() {
+  gameOver() {
     if (this.character.health <= 0) {
       this.gameOver_sound.play();
       this.stopGame();
@@ -57,7 +57,7 @@ class World {
       this.checkCollisions();
       this.collectingBottles();
       this.collectingCoins();
-      this.playGameOverSound();
+      this.gameOver();
       this.bottleHitEndboss();
       this.encounterWithEndboss();
       this.checkThrowObjects();
