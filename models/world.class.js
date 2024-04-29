@@ -46,6 +46,7 @@ class World {
     if (this.character.health <= 0) {
       this.gameOver_sound.play();
       this.stopGame();
+      sounds[0].pause();
     } else {
       sounds[0].play();
     }
@@ -137,7 +138,7 @@ class World {
 
   playSoundsChickenBottle() {
     this.throwableObject.splash_sound.play();
-    enemy.chicken_dead.play();
+    this.chicken.chicken_dead.play();
   }
 
   bottleCollidingEnemy(enemy, indexBottle) {
