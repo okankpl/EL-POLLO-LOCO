@@ -24,7 +24,6 @@ class Chicken extends MovableObject {
       right: 5,
       bottom: 0,
     };
-    
   }
 
   animate() {
@@ -34,7 +33,7 @@ class Chicken extends MovableObject {
       }, 1000 / 60);
 
       setInterval(() => {
-        if (this.health > 0 ) {
+        if (this.health > 0) {
           this.playAnimation(this.IMAGES_WALKING);
         } else {
           this.playOneImg(this.IMAGES_DEAD);

@@ -14,12 +14,14 @@ class ThrowableObject extends MovableObject {
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
-
-  throw_sound = new Audio("audio/throw.mp3");
-  splash_sound = new Audio("audio/breaking_bottle.mp3");
+  sound = [
+    (this.throw_sound = new Audio("audio/throw.mp3")),
+    (this.splash_sound = new Audio("audio/breaking_bottle.mp3")),
+  ];
 
   constructor(x, y, otherDirection, world) {
-    super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
+    super();
+    this.loadImage("img/6_salsa_bottle/salsa_bottle.png");
     this.loadImages(this.IMAGES_BOTTLE_THROWING);
     this.loadImages(this.IMAGES_BOTTLE_SPLASH);
 
@@ -37,6 +39,7 @@ class ThrowableObject extends MovableObject {
     };
     this.throw();
     this.hit = false;
+    this.addAudioToArray(this.sound);
   }
 
   throw() {
@@ -68,6 +71,5 @@ class ThrowableObject extends MovableObject {
     setTimeout(() => {
       this.world.removeThrowableObject(this);
     }, 600);
-    
   }
 }

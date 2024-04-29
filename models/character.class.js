@@ -55,24 +55,25 @@ class Character extends MovableObject {
   ];
 
   IMAGES_LONG_IDLE = [
-   "img/2_character_pepe/1_idle/long_idle/I-11.png",
-   "img/2_character_pepe/1_idle/long_idle/I-12.png",
-   "img/2_character_pepe/1_idle/long_idle/I-13.png",
-   "img/2_character_pepe/1_idle/long_idle/I-14.png",
-   "img/2_character_pepe/1_idle/long_idle/I-15.png",
-   "img/2_character_pepe/1_idle/long_idle/I-16.png",
-   "img/2_character_pepe/1_idle/long_idle/I-17.png",
-   "img/2_character_pepe/1_idle/long_idle/I-18.png",
-   "img/2_character_pepe/1_idle/long_idle/I-19.png",
-   "img/2_character_pepe/1_idle/long_idle/I-20.png",
-  ]
+    "img/2_character_pepe/1_idle/long_idle/I-11.png",
+    "img/2_character_pepe/1_idle/long_idle/I-12.png",
+    "img/2_character_pepe/1_idle/long_idle/I-13.png",
+    "img/2_character_pepe/1_idle/long_idle/I-14.png",
+    "img/2_character_pepe/1_idle/long_idle/I-15.png",
+    "img/2_character_pepe/1_idle/long_idle/I-16.png",
+    "img/2_character_pepe/1_idle/long_idle/I-17.png",
+    "img/2_character_pepe/1_idle/long_idle/I-18.png",
+    "img/2_character_pepe/1_idle/long_idle/I-19.png",
+    "img/2_character_pepe/1_idle/long_idle/I-20.png",
+  ];
 
   world;
-  walking_sound = new Audio("audio/running.mp3");
-  jumping_sound = new Audio("audio/jump.mp3");
-  snoring_sound = new Audio("audio/snoring.mp3");
-  hurt_sound = new Audio("audio/hurt.mp3");
-  
+  sound = [
+    (this.walking_sound = new Audio("audio/running.mp3")),
+    (this.jumping_sound = new Audio("audio/jump.mp3")),
+    (this.snoring_sound = new Audio("audio/snoring.mp3")),
+    (this.hurt_sound = new Audio("audio/hurt.mp3")),
+  ];
 
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
@@ -89,6 +90,7 @@ class Character extends MovableObject {
       right: 15,
       bottom: 10,
     };
+    this.addAudioToArray(this.sound);
   }
 
   animate() {
@@ -106,7 +108,6 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_LONG_IDLE);
       }, 4000);
     }
-    
 
     setInterval(() => {
       this.walking_sound.pause();

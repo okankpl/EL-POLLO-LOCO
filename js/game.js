@@ -1,17 +1,23 @@
 let canvas;
 let world;
 let keyboard;
+let sounds = [
+  background_music = new Audio("audio/background-music.mp3")
+];
 
 function init() {
   canvas = document.getElementById("canvas");
   keyboard = new Keyboard();
   world = new World(canvas, keyboard);
-  console.log("My Character is,", world.character, world.chicken,world.chick);
 }
 
-document.getElementById('muteButton').addEventListener('click', function() {
-  world.toggleMute();
-});
+function toggleMute() {
+  sounds.forEach((sound) => {
+    sound.muted = !sound.muted;
+  });
+}
+
+document.getElementById("muteButton").addEventListener("click", toggleMute);
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 37) {

@@ -17,7 +17,6 @@ class World {
   collectedCoins = 0;
   throwableObjects = [];
   gotKilledByJump = false;
-  background_music = new Audio("audio/background-music.mp3");
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
@@ -30,27 +29,7 @@ class World {
     this.draw();
     this.setWorld(keyboard);
     this.run();
-
-    this.gameSounds = [
-      this.character.walking_sound,
-      this.character.jumping_sound,
-      this.character.snoring_sound,
-      this.character.hurt_sound,
-      this.gameOver_sound,
-      this.background_music,
-      this.chicken.chicken_dead,
-    ];
-    this.muted = false;
     this.showEndbossStatus = false;
-  }
-
-  toggleMute() {
-    this.muted = !this.muted;
-    this.gameSounds.forEach((sound) => {
-      if (sound) {
-        sound.muted = this.muted;
-      }
-    });
   }
 
   setWorld() {
@@ -59,7 +38,7 @@ class World {
     this.endboss.world = this;
   }
 
-  clearAllIntervals() {
+  stopGame() {
     setTimeout(() => {
       for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }, 400);
@@ -68,12 +47,10 @@ class World {
 
   playGameOverSound() {
     if (this.character.health <= 0) {
-      this.background_music.pause();
       this.gameOver_sound.play();
-      this.clearAllIntervals();
-    } else {
-      this.background_music.play();
-      this.background_music.loop = true;
+      this.stopGame();
+    } else{
+      sounds[0].play();
     }
   }
 

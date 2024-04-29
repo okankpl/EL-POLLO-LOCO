@@ -6,6 +6,13 @@ class DrawableObject {
   y = 100;
   height = 350;
   width = 150;
+  sounds = [];
+
+  addAudioToArray(arr) {
+    Object.values(arr).forEach(sound => {
+        sounds.push(sound);
+    });
+}
 
   loadImage(path) {
     this.img = new Image();
