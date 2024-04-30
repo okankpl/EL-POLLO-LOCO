@@ -20,6 +20,7 @@ class World {
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
+  loseImg = new Overlay("img/9_intro_outro_screens/game_over/game over.png");
 
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
@@ -257,8 +258,11 @@ class World {
     this.addToMap(this.endboss);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
+    if (this.character.health <=0) {
+      this.addToMap(this.loseImg);
+    }
     this.ctx.translate(-this.camera_x, 0);
-
+    
     //draw wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(function () {

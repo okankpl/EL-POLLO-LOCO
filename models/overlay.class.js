@@ -1,10 +1,12 @@
-class Overlay extends DrawableOject {
-    x = 720;
-    y = 480;
+class Overlay extends DrawableObject {
+    width = 720;
+    height = 480;
+    x = 510;
+    y=0;
+    LOSE = ["img/9_intro_outro_screens/game_over/game over.png"];
 
-    WIN = ["img/9_intro_outro_screens/game_over/game over.png"];
-
-    constructor() {
-
+    
+    constructor(path) {
+        super().loadImage(path);
     }
 }
