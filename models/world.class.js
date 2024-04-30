@@ -166,8 +166,8 @@ class World {
   }
 
   setJumpkillTrue(enemy) {
-    enemy.hit(1);
     this.gotKilledByJump = true;
+    enemy.hit(1);
   }
 
   characterIsAboveEnemy(enemy) {
