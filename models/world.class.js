@@ -20,8 +20,7 @@ class World {
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay("img/9_intro_outro_screens/game_over/game over.png");
-
+  loseImg = new Overlay("img/9_intro_outro_screens/game_over/game over.png",0,0);
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
     this.ctx = canvas.getContext("2d");
@@ -47,9 +46,14 @@ class World {
     if (this.character.health <= 0) {
       this.gameOver_sound.play();
       this.stopGame();
-      sounds[0].pause();
+      sounds[0].pause(); // background music
     } else {
       sounds[0].play();
+    }
+    if (world.endboss.health <= 0) {
+      sounds[0].pause();
+      this.stopGame();
+      // this.chicken_dead.pause();
     }
   }
 
@@ -110,7 +114,7 @@ class World {
     });
     if (this.endboss.health <= 0) {
       this.endboss.isDead();
-      this.chicken.chicken_dead.play();
+      // this.chicken.chicken_dead.play();
     }
   }
 
@@ -237,6 +241,18 @@ class World {
     }
   }
 
+  showEndbossStatusbar() {
+    if (this.showEndbossStatus) {
+      this.addToMap(this.endbossStatusbar);
+    }
+  }
+
+  showLoseOverlay() {
+    if (this.character.health <= 0) {
+      this.addToMap(this.loseImg);
+    }
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the canvas
     this.ctx.translate(this.camera_x, 0);
@@ -244,9 +260,7 @@ class World {
     this.addObjectsToMap(this.level.clouds);
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
-    if (this.showEndbossStatus) {
-      this.addToMap(this.endbossStatusbar);
-    }
+    this.showEndbossStatusbar();
 
     this.addToMap(this.bottleStatusBar);
     this.addToMap(this.coinsStatusBar);
@@ -258,11 +272,9 @@ class World {
     this.addToMap(this.endboss);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
-    if (this.character.health <=0) {
-      this.addToMap(this.loseImg);
-    }
+
     this.ctx.translate(-this.camera_x, 0);
-    
+    this.showLoseOverlay();
     //draw wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(function () {
@@ -284,7 +296,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    // mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

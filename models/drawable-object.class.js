@@ -21,29 +21,29 @@ class DrawableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
-  drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Chicken ||
-      this instanceof Endboss ||
-      this instanceof Coins ||
-      this instanceof Bottles ||
-      this instanceof ThrowableObject ||
-      this instanceof Chick
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = "2";
-      ctx.strokeStyle = "red";
+  // drawFrame(ctx) {
+  //   if (
+  //     this instanceof Character ||
+  //     this instanceof Chicken ||
+  //     this instanceof Endboss ||
+  //     this instanceof Coins ||
+  //     this instanceof Bottles ||
+  //     this instanceof ThrowableObject ||
+  //     this instanceof Chick
+  //   ) {
+  //     ctx.beginPath();
+  //     ctx.lineWidth = "2";
+  //     ctx.strokeStyle = "red";
 
-      ctx.rect(
-        this.x + this.offset.left,
-        this.y + this.offset.top,
-        this.width - this.offset.left - this.offset.right,
-        this.height - this.offset.top - this.offset.bottom
-      );
-      ctx.stroke();
-    }
-  }
+  //     ctx.rect(
+  //       this.x + this.offset.left,
+  //       this.y + this.offset.top,
+  //       this.width - this.offset.left - this.offset.right,
+  //       this.height - this.offset.top - this.offset.bottom
+  //     );
+  //     ctx.stroke();
+  //   }
+  // }
 
   loadImages(arr) {
     arr.forEach((path) => {

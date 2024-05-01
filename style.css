@@ -10,7 +10,7 @@ body div {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 36px;
 }
 
 h1 {
@@ -24,16 +24,31 @@ canvas {
 }
 
 .instructions {
-    display: flex;
-    
     gap: 10px;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: black;
+    font-size: 32px;
+    gap: 26px;
 }
 
 #muteButton {
     height: 50px;
     width: 150px;
     font-size: 32px;
+    cursor: pointer;
+}
+
+.mute {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+#muteButton {
+    width: 50px;
+    height: 50px;
 }
 
 @font-face {

@@ -1,9 +1,7 @@
 let canvas;
 let world;
 let keyboard;
-let sounds = [
-  background_music = new Audio("audio/background-music.mp3")
-];
+let sounds = [(background_music = new Audio("audio/background-music.mp3"))];
 let globalMute = false;
 
 function init() {
@@ -14,13 +12,16 @@ function init() {
 }
 
 function toggleMute() {
-  globalMute = !globalMute; // Umschalten des globalen Mute-Status
+  globalMute = !globalMute;
   sounds.forEach((sound) => {
-    sound.muted = globalMute; // Aktualisiere den Mute-Status aller Sounds
-    console.log(sound.src + " is muted: " + sound.muted);
+    sound.muted = globalMute;
   });
+  if (globalMute) {
+    muteButton.src = "img/mute.png";
+  } else {
+    muteButton.src = "img/volumeon.png";
+  }
 }
-
 
 document.getElementById("muteButton").addEventListener("click", toggleMute);
 
