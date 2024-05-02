@@ -20,7 +20,9 @@ class World {
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay("img/9_intro_outro_screens/game_over/game over.png",0,0);
+  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",0,0);
+  winImg = new Overlay("img/9_intro_outro_screens/game_over/game over!.png");
+
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
     this.ctx = canvas.getContext("2d");
@@ -39,6 +41,7 @@ class World {
   stopGame() {
     setTimeout(() => {
       for (let i = 1; i < 9999; i++) window.clearInterval(i);
+      revealRestartButton();
     }, 400);
   }
 
@@ -47,12 +50,14 @@ class World {
       this.gameOver_sound.play();
       this.stopGame();
       sounds[0].pause(); // background music
+     
     } else {
       sounds[0].play();
     }
     if (world.endboss.health <= 0) {
       sounds[0].pause();
       this.stopGame();
+      
       // this.chicken_dead.pause();
     }
   }
@@ -247,9 +252,11 @@ class World {
     }
   }
 
-  showLoseOverlay() {
+  showWinLoseOverlay() {
     if (this.character.health <= 0) {
       this.addToMap(this.loseImg);
+    } else if(this.endboss.health <= 0) {
+      this.addToMap(this.winImg);
     }
   }
 
@@ -274,7 +281,7 @@ class World {
     this.addObjectsToMap(this.throwableObjects);
 
     this.ctx.translate(-this.camera_x, 0);
-    this.showLoseOverlay();
+    this.showWinLoseOverlay();
     //draw wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(function () {

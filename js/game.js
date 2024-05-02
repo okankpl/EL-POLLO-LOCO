@@ -3,6 +3,7 @@ let world;
 let keyboard;
 let sounds = [(background_music = new Audio("audio/background-music.mp3"))];
 let globalMute = false;
+let gameOver = false;
 
 function init() {
   initLevel();
@@ -21,6 +22,10 @@ function toggleMute() {
   } else {
     muteButton.src = "img/volumeon.png";
   }
+}
+
+function revealRestartButton() {
+  restart.style.display = "flex";
 }
 
 document.getElementById("muteButton").addEventListener("click", toggleMute);

@@ -51,6 +51,22 @@ canvas {
     height: 50px;
 }
 
+#restart button{
+    width: 160px;
+    height: 60px;
+    font-size: 24px;
+    font-family: 'zabars';
+    background-color: #FFA500;
+    
+}
+
+#restart {
+    display: none;
+}
+.container {
+
+}
+
 @font-face {
     font-family: 'zabars';
     src: url('fonts/Zabars.ttf') format('truetype');
