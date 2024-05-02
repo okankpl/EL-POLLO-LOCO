@@ -20,7 +20,11 @@ class World {
   gameOver_sound = new Audio("audio/game-over.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",0,0);
+  loseImg = new Overlay(
+    "img/9_intro_outro_screens/game_over/oh no you lost!.png",
+    0,
+    0
+  );
   winImg = new Overlay("img/9_intro_outro_screens/game_over/game over!.png");
 
   constructor(canvas, keyboard) {
@@ -39,26 +43,29 @@ class World {
   }
 
   stopGame() {
-    setTimeout(() => {
+    if (gameOver) {
+      setTimeout(() => {
       for (let i = 1; i < 9999; i++) window.clearInterval(i);
       revealRestartButton();
     }, 400);
+    }
   }
 
   gameOver() {
     if (this.character.health <= 0) {
+      gameOver = true;
       this.gameOver_sound.play();
       this.stopGame();
       sounds[0].pause(); // background music
-     
-    } else {
-      sounds[0].play();
     }
+
     if (world.endboss.health <= 0) {
+      gameOver = true;
       sounds[0].pause();
       this.stopGame();
-      
       // this.chicken_dead.pause();
+    } else {
+      sounds[0].play();
     }
   }
 
@@ -255,7 +262,7 @@ class World {
   showWinLoseOverlay() {
     if (this.character.health <= 0) {
       this.addToMap(this.loseImg);
-    } else if(this.endboss.health <= 0) {
+    } else if (this.endboss.health <= 0) {
       this.addToMap(this.winImg);
     }
   }

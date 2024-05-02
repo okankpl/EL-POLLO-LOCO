@@ -28,6 +28,13 @@ function revealRestartButton() {
   restart.style.display = "flex";
 }
 
+function restartGame() {
+  gameOver = false;
+  world = null;
+  init();
+  restart.style.display = "none";
+}
+
 document.getElementById("muteButton").addEventListener("click", toggleMute);
 
 window.addEventListener("keydown", (e) => {

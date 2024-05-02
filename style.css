@@ -10,7 +10,6 @@ body div {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 36px;
 }
 
 h1 {
@@ -31,6 +30,7 @@ canvas {
     color: black;
     font-size: 32px;
     gap: 26px;
+    margin-top: 100px;
 }
 
 #muteButton {
@@ -54,17 +54,23 @@ canvas {
 #restart button{
     width: 160px;
     height: 60px;
-    font-size: 24px;
+    font-size: 28px;
     font-family: 'zabars';
     background-color: #FFA500;
-    
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 #restart {
     display: none;
+    width: 720px;
+    height: 480px;
+    position: absolute;
+    top: 60px;
 }
 .container {
-
+    width: 720px;
+    height: 480px;
 }
 
 @font-face {
