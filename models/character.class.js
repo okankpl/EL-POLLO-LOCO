@@ -92,6 +92,7 @@ class Character extends MovableObject {
       bottom: 10,
     };
     this.addAudioToArray(this.sound);
+    this.measureLastCharacterAction();
   }
 
   animate() {
