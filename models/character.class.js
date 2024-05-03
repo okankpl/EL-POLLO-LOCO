@@ -3,6 +3,7 @@ class Character extends MovableObject {
   width = 100;
   y = 170;
   speed = 4;
+  lastCharacterAction;
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -94,20 +95,13 @@ class Character extends MovableObject {
   }
 
   animate() {
-    if (
-      !this.world.keyboard.RIGHT ||
-      !this.world.keyboard.LEFT ||
-      !this.world.keyboard.UP ||
-      !this.world.keyboard.SPACE
-    ) {
-      setInterval(() => {
-        this.playAnimation(this.IMAGES_IDLE);
-      }, 300);
-
-      setTimeout(() => {
+    setInterval(() => {
+      if (this.calculateElapsedTime() > 5) {
         this.playAnimation(this.IMAGES_LONG_IDLE);
-      }, 4000);
-    }
+      } else if (this.calculateElapsedTime() > 0) {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
+    }, 250);
 
     setInterval(() => {
       this.walking_sound.pause();
@@ -118,18 +112,21 @@ class Character extends MovableObject {
         this.moveRight();
         this.walking_sound.play();
         this.otherDirection = false;
+        this.measureLastCharacterAction();
       }
 
       if (this.world.keyboard.LEFT == true && this.x > 0) {
         this.moveLeft();
         this.walking_sound.play();
         this.otherDirection = true;
+        this.measureLastCharacterAction();
       }
 
       if (this.world.keyboard.SPACE == true && !this.isAboveGround()) {
         this.jumping_sound.currentTime = 0;
         this.jumping_sound.play();
         this.jump();
+        this.measureLastCharacterAction();
       }
 
       this.world.camera_x = -this.x + 100;
@@ -158,5 +155,17 @@ class Character extends MovableObject {
 
   jump() {
     this.speedY = 25;
+  }
+
+  calculateElapsedTime() {
+    let currentTime = new Date().getTime();
+    let elapsedTime = currentTime - this.lastCharacterAction;
+    elapsedTime = elapsedTime / 1000;
+    return elapsedTime;
+  }
+
+  measureLastCharacterAction() {
+    this.lastCharacterAction = new Date().getTime();
+    return this.lastCharacterAction;
   }
 }

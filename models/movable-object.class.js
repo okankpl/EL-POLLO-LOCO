@@ -9,6 +9,7 @@ class MovableObject extends DrawableObject {
   attackDistance;
   hitByBottle = false;
   soundEffects = [];
+  lastCharacterAction;
 
   offset = {
     left: 0,
@@ -94,6 +95,8 @@ class MovableObject extends DrawableObject {
   gotHitByBottle() {
     return this.hitByBottle = true;
   }
+
+ 
 
   
 }
