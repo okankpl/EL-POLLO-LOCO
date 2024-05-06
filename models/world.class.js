@@ -18,6 +18,7 @@ class World {
   throwableObjects = [];
   gotKilledByJump = false;
   gameOver_sound = new Audio("audio/game-over.mp3");
+  win_sound = new Audio("audio/win.mp3");
   endbossHealth = 5;
   allInttervall = [];
   loseImg = new Overlay(
@@ -35,6 +36,8 @@ class World {
     this.setWorld(keyboard);
     this.run();
     this.showEndbossStatus = false;
+    sounds.push(this.gameOver_sound);
+    sounds.push(this.win_sound);
   }
 
   setWorld() {
@@ -45,9 +48,9 @@ class World {
   stopGame() {
     if (gameOver) {
       setTimeout(() => {
-      for (let i = 1; i < 9999; i++) window.clearInterval(i);
-      revealRestartButton();
-    }, 400);
+        for (let i = 1; i < 9999; i++) window.clearInterval(i);
+        revealRestartButton();
+      }, 400);
     }
   }
 
@@ -56,16 +59,14 @@ class World {
       gameOver = true;
       this.gameOver_sound.play();
       this.stopGame();
-      sounds[0].pause(); // background music
+      sounds[0].pause();
     }
 
     if (world.endboss.health <= 0) {
       gameOver = true;
       sounds[0].pause();
+      this.win_sound.play();
       this.stopGame();
-      // this.chicken_dead.pause();
-    } else {
-      sounds[0].play();
     }
   }
 

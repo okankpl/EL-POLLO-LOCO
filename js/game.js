@@ -12,6 +12,7 @@ function init() {
   world = new World(canvas, keyboard);
   startScreen.style.display = "none";
   mute.style.display = "flex";
+  sounds[0].play();
 }
 
 function toggleMute() {
@@ -29,6 +30,11 @@ function toggleMute() {
 function revealRestartButton() {
   restart.style.display = "flex";
   mute.style.display = "none";
+}
+
+function openInstructions() {
+  overlayBlur.classList.toggle("overlay-blur");
+  instructions.classList.toggle("d-none");
 }
 
 function restartGame() {

@@ -43,7 +43,7 @@ class MovableObject extends DrawableObject {
     this.attackDistance = endbossX - characterX;
     return this.attackDistance;
   }
-  
+
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -93,10 +93,6 @@ class MovableObject extends DrawableObject {
   }
 
   gotHitByBottle() {
-    return this.hitByBottle = true;
+    return (this.hitByBottle = true);
   }
-
- 
-
-  
 }
