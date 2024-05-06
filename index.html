@@ -23,7 +23,7 @@
 
           <div class="start-game-instructions-btn">
             <button class="start-game-btn" onclick="init()">START GAME</button>
-            <button class="instructions-btn">INSTRUCTIONS</button>
+            <button class="instructions-btn" onclick="openInstructions()">INSTRUCTIONS</button>
           </div>
         </div>
 
@@ -32,6 +32,9 @@
       </div>
 
       <div class="instructions">
+        <div class="close-image">
+          <img onclick="closeInstructions()" src="img/close.png" alt="">
+        </div>
         <span>LEFT/RIGHT ARROW = WALK</span>
         <span> SPACE = JUMP</span>
         <span> D = JUMP</span>
