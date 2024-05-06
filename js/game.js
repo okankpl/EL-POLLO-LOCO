@@ -11,6 +11,7 @@ function init() {
   keyboard = new Keyboard();
   world = new World(canvas, keyboard);
   startScreen.style.display = "none";
+  mute.style.display = "flex";
 }
 
 function toggleMute() {
@@ -27,6 +28,7 @@ function toggleMute() {
 
 function revealRestartButton() {
   restart.style.display = "flex";
+  mute.style.display = "none";
 }
 
 function restartGame() {
