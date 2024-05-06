@@ -127,7 +127,6 @@ class World {
     });
     if (this.endboss.health <= 0) {
       this.endboss.isDead();
-      // this.chicken.chicken_dead.play();
     }
   }
 

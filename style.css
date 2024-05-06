@@ -21,6 +21,19 @@ h1 {
 
 canvas {
   background-color: black;
+  display: block;
+}
+
+@media only screen and (max-width: 720px) {
+    .container, canvas {
+        width: 100% !important;
+    }
+}
+
+@media only screen and (max-height: 480px){
+    .container, canvas {
+        height: 100vh !important;
+    }
 }
 
 .instructions-container {
