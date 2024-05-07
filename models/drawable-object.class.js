@@ -9,8 +9,8 @@ class DrawableObject {
   sounds = [];
 
   addAudioToArray(sound) {
-        sounds.push(...sound);
-}
+    sounds.push(...sound);
+  }
 
   loadImage(path) {
     this.img = new Image();
