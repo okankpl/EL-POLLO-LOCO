@@ -97,10 +97,17 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (this.calculateElapsedTime() > 5) {
-        this.playAnimation(this.IMAGES_LONG_IDLE);
-      } else if (this.calculateElapsedTime() > 0) {
-        this.playAnimation(this.IMAGES_IDLE);
+      if (
+        !this.world.keyboard.LEFT ||
+        !this.world.keyboard.RIGHT ||
+        !this.world.keyboard.UP ||
+        !this.world.keyboard.D
+      ) {
+        if (this.calculateElapsedTime() > 5) {
+          this.playAnimation(this.IMAGES_LONG_IDLE);
+        } else if (this.calculateElapsedTime() > 0.2) {
+          this.playAnimation(this.IMAGES_IDLE);
+        }
       }
     }, 250);
 
@@ -115,21 +122,18 @@ class Character extends MovableObject {
         this.otherDirection = false;
         this.measureLastCharacterAction();
       }
-
       if (this.world.keyboard.LEFT == true && this.x > 0) {
         this.moveLeft();
         this.walking_sound.play();
         this.otherDirection = true;
         this.measureLastCharacterAction();
       }
-
       if (this.world.keyboard.SPACE == true && !this.isAboveGround()) {
         this.jumping_sound.currentTime = 0;
         this.jumping_sound.play();
         this.jump();
         this.measureLastCharacterAction();
       }
-
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
@@ -145,28 +149,13 @@ class Character extends MovableObject {
       ) {
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 100);
-
-    setInterval(() => {
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       }
-    }, 100);
+    }, 150);
   }
 
   jump() {
     this.speedY = 25;
-  }
-
-  calculateElapsedTime() {
-    let currentTime = new Date().getTime();
-    let elapsedTime = currentTime - this.lastCharacterAction;
-    elapsedTime = elapsedTime / 1000;
-    return elapsedTime;
-  }
-
-  measureLastCharacterAction() {
-    this.lastCharacterAction = new Date().getTime();
-    return this.lastCharacterAction;
   }
 }

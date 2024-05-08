@@ -134,6 +134,7 @@ button {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(8px);
+  z-index: 1000;
 }
 
 .start-screen-image {
@@ -173,6 +174,8 @@ button {
   flex-direction: row;
   justify-content: space-around;
   width: 80%;
+  z-index: 999;
+  display: none;
 }
 
 .responsive-left-right,
@@ -255,6 +258,10 @@ button {
   .start-game-instructions-btn {
     top: 20px !important;
   }
+
+  .responsive-buttons {
+    display: flex;
+  }
 }
 
 @media only screen and (max-height: 480px) {
@@ -275,5 +282,9 @@ button {
   button {
     font-size: 18px;
     width: 150px;
+  }
+
+  .responsive-buttons {
+    display: flex;
   }
 }

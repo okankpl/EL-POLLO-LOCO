@@ -95,4 +95,16 @@ class MovableObject extends DrawableObject {
   gotHitByBottle() {
     return (this.hitByBottle = true);
   }
+
+  calculateElapsedTime() {
+    let currentTime = new Date().getTime();
+    let elapsedTime = currentTime - this.lastCharacterAction;
+    elapsedTime = elapsedTime / 1000;
+    return elapsedTime;
+  }
+
+  measureLastCharacterAction() {
+    this.lastCharacterAction = new Date().getTime();
+    return this.lastCharacterAction;
+  }
 }
