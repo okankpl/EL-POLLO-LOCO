@@ -13,7 +13,12 @@ function init() {
   startScreen.style.display = "none";
   mute.style.display = "flex";
   sounds[0].play();
+  mobileControls();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  mobileControls();  // This initializes the touch controls
+});
 
 function toggleMute() {
   globalMute = !globalMute;
