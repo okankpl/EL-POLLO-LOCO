@@ -37,10 +37,9 @@ class ThrowableObject extends MovableObject {
       right: 25,
       bottom: 20,
     };
-   
+
     this.throw();
     this.hit = false;
-    
   }
 
   throw() {

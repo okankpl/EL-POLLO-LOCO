@@ -1,5 +1,14 @@
 let level1;
 
+/**
+ * Initializes the game level with enemies, clouds, background objects, bottles, coins, and an endboss.
+ * - Creates multiple instances of Chicken and Chick for enemies.
+ * - Adds a Cloud to the sky.
+ * - Sets up a series of BackgroundObjects to create a layered parallax effect for the scenery.
+ * - Distributes Bottles across the level for the player to collect and use.
+ * - Places Coins throughout the level for the player to collect.
+ * - Introduces an Endboss at the end of the level.
+ */
 function initLevel() {
   level1 = new Level(
     [
