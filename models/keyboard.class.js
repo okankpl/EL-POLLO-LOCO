@@ -1,3 +1,8 @@
+/**
+ * Manages keyboard and touch input for controlling game characters and actions.
+ * This class tracks the state of various keys (LEFT, RIGHT, UP, DOWN, SPACE, D)
+ * to provide a responsive input system for both desktop and mobile devices.
+ */
 class Keyboard {
   LEFT = false;
   RIGHT = false;
@@ -5,11 +10,16 @@ class Keyboard {
   DOWN = false;
   SPACE = false;
   D = false;
-
+  /**
+   * Initializes the keyboard with default states for control keys.
+   */
   constructor() {
     this.mobileControls();
   }
-
+  /**
+   * Sets up touch event listeners for mobile controls, linking screen touches to keyboard actions.
+   * This method helps to simulate keyboard events using touch controls on mobile devices.
+   */
   mobileControls() {
     document.getElementById("left").addEventListener("touchstart", (e) => {
       e.preventDefault();

@@ -5,6 +5,12 @@ let sounds = [(background_music = new Audio("audio/background-music.mp3"))];
 let globalMute = false;
 let gameOver = false;
 
+
+/**
+ * Sets up the game by loading levels and game components.
+ * Hides the start screen and shows the mute button.
+ * Starts playing the background music.
+ */
 function init() {
   initLevel();
   canvas = document.getElementById("canvas");
@@ -15,6 +21,10 @@ function init() {
   sounds[0].play();
 }
 
+/**
+ * Switches the mute state of the game.
+ * Changes the mute button icon based on whether the game is muted or not.
+ */
 function toggleMute() {
   globalMute = !globalMute;
   sounds.forEach((sound) => {
@@ -27,16 +37,26 @@ function toggleMute() {
   }
 }
 
+/**
+ * Shows the restart game button and hides the mute button.
+ */
 function revealRestartButton() {
   restart.style.display = "flex";
   mute.style.display = "none";
 }
 
+/**
+ * Toggles the instructions display on and off.
+ * This adds or removes a blur effect over the game.
+ */
 function openInstructions() {
   overlayBlur.classList.toggle("overlay-blur");
   instructions.classList.toggle("d-none");
 }
 
+/**
+ * Restarts the game by resetting game states and re-initializing the game setup.
+ */
 function restartGame() {
   gameOver = false;
   world = null;
@@ -44,8 +64,16 @@ function restartGame() {
   restart.style.display = "none";
 }
 
+/**
+ * Event listener for mute button clicks.
+ * Calls the toggleMute function when the mute button is clicked.
+ */
 document.getElementById("muteButton").addEventListener("click", toggleMute);
 
+/**
+ * Event listener for key down events to track player's keyboard input.
+ * Updates the keyboard state based on which keys are pressed.
+ */
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 37) {
     keyboard.LEFT = true;
@@ -67,6 +95,10 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+/**
+ * Event listener for key up events to track player's keyboard input.
+ * Updates the keyboard state based on which keys are released.
+ */
 window.addEventListener("keyup", (e) => {
   if (e.keyCode == 37) {
     keyboard.LEFT = false;

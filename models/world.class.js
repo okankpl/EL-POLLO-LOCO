@@ -21,13 +21,9 @@ class World {
   win_sound = new Audio("audio/win.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay(
-    "img/9_intro_outro_screens/game_over/oh no you lost!.png",
-    0,
-    0
-  );
+  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",0,0);
   winImg = new Overlay("img/9_intro_outro_screens/game_over/game over!.png");
-
+  bgrMusic = sounds[0];
   constructor(canvas, keyboard) {
     this.keyboard = keyboard;
     this.ctx = canvas.getContext("2d");
@@ -59,12 +55,12 @@ class World {
       gameOver = true;
       this.gameOver_sound.play();
       this.stopGame();
-      sounds[0].pause();
+      bgrMusic.pause();
     }
 
     if (world.endboss.health <= 0) {
       gameOver = true;
-      sounds[0].pause();
+      bgrMusic.pause();
       this.win_sound.play();
       this.stopGame();
     }

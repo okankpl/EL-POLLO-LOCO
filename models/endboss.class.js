@@ -1,3 +1,11 @@
+/**
+ * Represents the end boss in the game, specifically a boss chicken character.
+ * This class manages the end boss's animations, movements, health, and interactions with the player,
+ * including different states like alert, walking, attacking, being hurt, and dead.
+ *
+ * @extends MovableObject  Inherits methods and properties from the MovableObject class,
+ *                         which includes basic image handling, movement capabilities, and health management.
+ */
 class Endboss extends MovableObject {
   IMAGES_ALERT = [
     "img/4_enemie_boss_chicken/2_alert/G5.png",
@@ -40,7 +48,10 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/4_hurt/G23.png",
   ];
   world;
-
+  /**
+   * Constructs a new end boss object.
+   * Initializes the end boss with a set of animation states and positions the boss at a specified location.
+   */
   constructor() {
     super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
     this.loadImages(this.IMAGES_ALERT);
@@ -59,7 +70,10 @@ class Endboss extends MovableObject {
       bottom: 25,
     };
   }
-
+  /**
+   * Initiates and manages the animation loop for the end boss.
+   * Adjusts animations based on the boss's state and position.
+   */
   animate() {
     setInterval(() => {
       if (this.health <= 0) {
@@ -80,7 +94,9 @@ class Endboss extends MovableObject {
       }
     }, 200);
   }
-
+  /**
+   * Manages the movement of the end boss, allowing it to start moving after a delay.
+   */
   moveEndboss() {
     setTimeout(() => {
       setInterval(() => {
