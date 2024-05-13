@@ -47,4 +47,14 @@ class DrawableObject {
       this.imageCache[path] = img;
     });
   }
+  /**
+   * Sets the current percentage of the status bar based on the number of coins collected or used.
+   * This function updates the visual representation of the status bar to reflect the current state.
+   * @param {number} percentage - The current percentage (0-5) representing the number of coins.
+   */
+  setPercentage(percentage) {
+    this.percentage = percentage;
+    let imagePath = this.IMAGES[this.resolveImageIndex()];
+    this.img = this.imageCache[imagePath];
+  }
 }

@@ -1,3 +1,10 @@
+/**
+ * Represents the health status bar in the game, showing the current health of a character or entity.
+ * This class extends `DrawableObject` to utilize its image rendering capabilities for displaying the health status.
+ * The status bar changes visually based on the current health percentage, providing a clear visual indicator of health levels.
+ *
+ * @extends DrawableObject
+ */
 class Statusbar extends DrawableObject {
   IMAGES = [
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
@@ -9,7 +16,9 @@ class Statusbar extends DrawableObject {
   ];
 
   percentage = 100;
-
+  /**
+   * Initializes a new health status bar with predefined images representing different states of health from full to empty.
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES);
@@ -20,12 +29,12 @@ class Statusbar extends DrawableObject {
     this.height = 60;
   }
 
-  setPercentage(percentage) {
-    this.percentage = percentage;
-    let imagePath = this.IMAGES[this.resolveImageIndex()];
-    this.img = this.imageCache[imagePath];
-  }
-
+  /**
+   * Resolves the index of the image in the IMAGES array based on the current health percentage.
+   * This method helps in fetching the correct image that corresponds to the character's current health.
+   * The health percentage translates to an image index that visually represents health from full to empty.
+   * @returns {number} The index of the image in the IMAGES array.
+   */
   resolveImageIndex() {
     if (this.percentage == 100) {
       return 0;
