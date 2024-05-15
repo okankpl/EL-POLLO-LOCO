@@ -66,20 +66,27 @@ class ThrowableObject extends MovableObject {
     }
     this.applyGravity();
     setInterval(() => {
-      if (this.otherDirection) {
-        this.x -= this.speedX;
-      } else {
-        this.x += this.speedX;
-      }
-      if (this.y == 377.5 || this.hit) {
-        this.speedY = 0;
-        this.speedX = 0;
-        this.splashAnimation();
-      } else {
-        this.playAnimation(this.IMAGES_BOTTLE_THROWING);
-      }
+     this.animation();
     }, 25);
   }
+/**
+ * includes animations for throw and splash bottle
+ */
+  animation() {
+    if (this.otherDirection) {
+      this.x -= this.speedX;
+    } else {
+      this.x += this.speedX;
+    }
+    if (this.y == 377.5 || this.hit) {
+      this.speedY = 0;
+      this.speedX = 0;
+      this.splashAnimation();
+    } else {
+      this.playAnimation(this.IMAGES_BOTTLE_THROWING);
+    }
+  }
+
   /**
    * Plays the splash animation sequence when the throwable object impacts another object or the ground,
    * and schedules the removal of the object from the world after the animation.

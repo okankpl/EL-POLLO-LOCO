@@ -149,6 +149,29 @@ class Character extends MovableObject {
    */
   moveCharacter() {
     this.walking_sound.pause();
+    this.moveCharacterRight();
+    this.moveCharacterLeft();
+    this.jumpCharacter();
+    this.world.camera_x = -this.x + 100;
+  }
+ /**
+   * the character jups and plays the jump sound.
+   * last action of character gets measured vor the idle animation
+   */
+  jumpCharacter() {
+    if (this.world.keyboard.SPACE == true && !this.isAboveGround()) {
+      this.jumping_sound.currentTime = 0;
+      this.jumping_sound.play();
+      this.jump();
+      this.measureLastCharacterAction();
+    }
+  }
+
+  /**
+   * moves character to the right and plays the walking sound.
+   * last action of character gets measured vor the idle animation
+   */
+  moveCharacterRight() {
     if (
       this.world.keyboard.RIGHT == true &&
       this.x < this.world.level.level_end_x
@@ -158,19 +181,18 @@ class Character extends MovableObject {
       this.otherDirection = false;
       this.measureLastCharacterAction();
     }
+  }
+  /**
+   * moves character to the left and plays the walking sound.
+   * last action of character gets measured vor the idle animation
+   */
+  moveCharacterLeft() {
     if (this.world.keyboard.LEFT == true && this.x > 0) {
       this.moveLeft();
       this.walking_sound.play();
       this.otherDirection = true;
       this.measureLastCharacterAction();
     }
-    if (this.world.keyboard.SPACE == true && !this.isAboveGround()) {
-      this.jumping_sound.currentTime = 0;
-      this.jumping_sound.play();
-      this.jump();
-      this.measureLastCharacterAction();
-    }
-    this.world.camera_x = -this.x + 100;
   }
   /**
    * Determines and sets the appropriate animation based on the character's state.

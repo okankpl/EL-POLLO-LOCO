@@ -75,12 +75,12 @@ class World {
       gameOver = true;
       this.gameOver_sound.play();
       this.stopGame();
-      bgrMusic.pause();
+      this.bgrMusic.pause();
     }
 
     if (world.endboss.health <= 0) {
       gameOver = true;
-      bgrMusic.pause();
+      this.bgrMusic.pause();
       this.win_sound.play();
       this.stopGame();
     }
@@ -90,7 +90,6 @@ class World {
    */
   run() {
     setInterval(() => {
-      this.checkCollisions();
       this.collectingBottles();
       this.collectingCoins();
       this.gameOver();
@@ -101,6 +100,7 @@ class World {
     }, 200);
 
     setInterval(() => {
+      this.checkCollisions();
       this.bottleKill();
       this.jumpKill();
       this.endboss.attackRange(this.endboss.x, this.character.x);
@@ -112,17 +112,20 @@ class World {
    */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
+      if (
+        this.character.isColliding(enemy) &&
+        !this.gotKilledByJump &&
+        !this.character.isAboveGround
+      ) {
         this.decreaseCharacterHealth();
       }
     });
-    this.gotKilledByJump = false;
   }
   /**
    * decreases the health of the character and updates the health status bar
    */
   decreaseCharacterHealth() {
-    this.character.hit(5);
+    this.character.hit(1.5);
     this.statusBar.setPercentage(this.character.health);
   }
 
@@ -155,7 +158,9 @@ class World {
       if (this.bottleCollidingEnemy(this.endboss, indexBottle) && !bottle.hit) {
         this.decreaseEndbossHealth(bottle);
         bottle.splashAnimation();
-        bottle.splash_sound.play();
+        if (!globalMute) {
+          bottle.splash_sound.play();
+        }
         this.endboss.gotHitByBottle();
       }
     });
@@ -196,8 +201,10 @@ class World {
    * Plays audio effects associated with a chicken being hit by a bottle.
    */
   playSoundsChickenBottle() {
-    this.throwableObject.splash_sound.play();
-    this.chicken.chicken_dead.play();
+    if (!globalMute) {
+      this.throwableObject.splash_sound.play();
+      this.chicken.chicken_dead.play();
+    }
   }
   /**
    * Determines if a throwable object (bottle) is colliding with an enemy.
@@ -227,6 +234,7 @@ class World {
         this.jumpAfterKill(enemy);
         setTimeout(() => {
           this.removeObjectFromWorld(i);
+          this.gotKilledByJump = false;
         }, 150);
       }
     }
@@ -259,7 +267,7 @@ class World {
   jumpAfterKill(enemy) {
     if (this.character.y > 60 && enemy instanceof Chicken) {
       this.character.speedY = 10;
-    } else if (this.character.y == 147.5 && enemy instanceof Chick) {
+    } else if (this.character.y == 137.5 && enemy instanceof Chick) {
       this.character.speedY = 10;
     }
   }
@@ -324,8 +332,9 @@ class World {
   }
 
   /**
-   *
-   * @param {arra} throwableObject
+   * Removes a throwable object from the list of active throwable objects in the game.
+   * This method is typically called after a throwable object has completed its interaction, such as impacting a target or reaching the end of its trajectory.
+   * @param {ThrowableObject} throwableObject - The throwable object to be removed from the game world.
    */
   removeThrowableObject(throwableObject) {
     const index = this.throwableObjects.indexOf(throwableObject);
@@ -342,6 +351,7 @@ class World {
       this.addToMap(this.endbossStatusbar);
     }
   }
+
   /**
    * Displays the win or lose screen based on the game outcome, adding a specific overlay to the gameplay.
    */
@@ -359,19 +369,12 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
-    this.addObjectsToMap(this.level.clouds);
+    this.drawBackgroundObjects();
     this.ctx.translate(-this.camera_x, 0);
-    this.addToMap(this.statusBar);
-    this.showEndbossStatusbar();
-    this.addToMap(this.bottleStatusBar);
-    this.addToMap(this.coinsStatusBar);
+    this.drawStatusBar();
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.coins);
-    this.addObjectsToMap(this.level.bottles);
-    this.addToMap(this.character);
-    this.addToMap(this.endboss);
-    this.addObjectsToMap(this.level.enemies);
+    this.drawCollectableObjects();
+    this.drawMovablesObjects();
     this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
     this.showWinLoseOverlay();
@@ -379,6 +382,29 @@ class World {
     requestAnimationFrame(function () {
       self.draw();
     });
+  }
+
+  drawBackgroundObjects() {
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
+  }
+
+  drawStatusBar() {
+    this.addToMap(this.statusBar);
+    this.showEndbossStatusbar();
+    this.addToMap(this.bottleStatusBar);
+    this.addToMap(this.coinsStatusBar);
+  }
+
+  drawMovablesObjects() {
+    this.addToMap(this.character);
+    this.addToMap(this.endboss);
+    this.addObjectsToMap(this.level.enemies);
+  }
+
+  drawCollectableObjects() {
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
   }
 
   /**
