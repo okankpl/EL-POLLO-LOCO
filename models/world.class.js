@@ -101,7 +101,6 @@ class World {
     }, 200);
 
     setInterval(() => {
-      
       this.bottleKill();
       this.jumpKill();
       this.endboss.attackRange(this.endboss.x, this.character.x);
@@ -267,7 +266,7 @@ class World {
   jumpAfterKill(enemy) {
     if (this.character.y > 60 && enemy instanceof Chicken) {
       this.character.speedY = 10;
-    } else if (this.character.y == 137.5 && enemy instanceof Chick) {
+    } else if (enemy instanceof Chick) {
       this.character.speedY = 10;
     }
   }
