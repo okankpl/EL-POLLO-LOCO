@@ -45,7 +45,6 @@ class Chick extends MovableObject {
     if (this.health > 0) {
       setInterval(() => {
         this.moveLeft();
-        console.log(this.y - this.height);
       }, 1000 / 60);
 
       setInterval(() => {
