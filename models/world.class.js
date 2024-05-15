@@ -97,10 +97,11 @@ class World {
       this.encounterWithEndboss();
       this.checkThrowObjects();
       this.characterCollideWithEndboss();
+      this.checkCollisions();
     }, 200);
 
     setInterval(() => {
-      this.checkCollisions();
+      
       this.bottleKill();
       this.jumpKill();
       this.endboss.attackRange(this.endboss.x, this.character.x);
@@ -114,8 +115,7 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (
         this.character.isColliding(enemy) &&
-        !this.gotKilledByJump &&
-        !this.character.isAboveGround
+        !this.gotKilledByJump
       ) {
         this.decreaseCharacterHealth();
       }
@@ -379,16 +379,20 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     this.showWinLoseOverlay();
     let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
+    requestAnimationFrame(function () {self.draw();});
   }
 
+  /**
+   * draws background objects to the canvas
+   */
   drawBackgroundObjects() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
   }
 
+  /**
+   * draws the statusbars to the canvas
+   */
   drawStatusBar() {
     this.addToMap(this.statusBar);
     this.showEndbossStatusbar();
@@ -396,12 +400,18 @@ class World {
     this.addToMap(this.coinsStatusBar);
   }
 
+  /**
+   * draws the movable objects to the canvas
+   */
   drawMovablesObjects() {
     this.addToMap(this.character);
     this.addToMap(this.endboss);
     this.addObjectsToMap(this.level.enemies);
   }
 
+  /**
+   * draws the movable objects to the canvas
+   */
   drawCollectableObjects() {
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
