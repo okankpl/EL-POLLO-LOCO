@@ -28,24 +28,4 @@ class EndbossStatusBar extends DrawableObject {
     this.height = 60;
   }
   
-  /**
-   * Resolves the index of the image in the IMAGES array based on the current health percentage.
-   * This method helps in fetching the correct image that corresponds to the end boss's current health.
-   * @returns {number} The index of the image in the IMAGES array.
-   */
-  resolveImageIndex() {
-    if (this.percentage == 5) {
-      return 0;
-    } else if (this.percentage == 4) {
-      return 1;
-    } else if (this.percentage == 3) {
-      return 2;
-    } else if (this.percentage == 2) {
-      return 3;
-    } else if (this.percentage == 1) {
-      return 4;
-    } else if (this.percentage <= 0) {
-      return 5;
-    }
-  }
 }

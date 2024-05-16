@@ -126,6 +126,7 @@ class Character extends MovableObject {
    */
   jump() {
     this.speedY = 25;
+    this.currentImage = 0;
   }
   /**
    * Displays idle animation sequences based on how long the character has been idle.

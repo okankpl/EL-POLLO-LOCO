@@ -25,13 +25,10 @@ class World {
   win_sound = new Audio("audio/win.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay(
-    "img/9_intro_outro_screens/game_over/oh no you lost!.png",
-    0,
-    0
-  );
+  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",0,0);
   winImg = new Overlay("img/9_intro_outro_screens/game_over/game over!.png");
   bgrMusic = sounds[0];
+  bottleCooldown = false;
   /**
    * Constructs the game world and initializes all game components.
    * @param {HTMLCanvasElement} canvas - The canvas on which the game is drawn.
@@ -112,10 +109,7 @@ class World {
    */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (
-        this.character.isColliding(enemy) &&
-        !this.gotKilledByJump
-      ) {
+      if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
         this.decreaseCharacterHealth();
       }
     });
@@ -124,7 +118,7 @@ class World {
    * decreases the health of the character and updates the health status bar
    */
   decreaseCharacterHealth() {
-    this.character.hit(1.5);
+    this.character.hit(5);
     this.statusBar.setPercentage(this.character.health);
   }
 
@@ -315,18 +309,23 @@ class World {
    * Creates a new ThrowableObject positioned relative to the character and updates the inventory.
    * The new throwable object is then added to the game world and the count of available bottles is decremented.
    * Updates the visual bottle status bar to reflect the new inventory status.
+   * There is also a cooldown for throwing bottles.
    */
   checkThrowObjects() {
-    if (this.keyboard.D && this.collectedBottles > 0) {
+    if (this.keyboard.D && this.collectedBottles > 0 && !this.bottleCooldown) {
       let bottle = new ThrowableObject(
         this.character.x + 50,
         this.character.y + 100,
         this.character.otherDirection,
         this
       );
+      this.bottleCooldown = true;
       this.throwableObjects.push(bottle);
       this.collectedBottles--;
       this.bottleStatusBar.setPercentage(this.collectedBottles);
+      setTimeout(() => {
+        this.bottleCooldown = false;
+      }, 2000);
     }
   }
 
@@ -378,7 +377,9 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     this.showWinLoseOverlay();
     let self = this;
-    requestAnimationFrame(function () {self.draw();});
+    requestAnimationFrame(function () {
+      self.draw();
+    });
   }
 
   /**

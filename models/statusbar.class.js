@@ -28,26 +28,4 @@ class Statusbar extends DrawableObject {
     this.width = 200;
     this.height = 60;
   }
-
-  /**
-   * Resolves the index of the image in the IMAGES array based on the current health percentage.
-   * This method helps in fetching the correct image that corresponds to the character's current health.
-   * The health percentage translates to an image index that visually represents health from full to empty.
-   * @returns {number} The index of the image in the IMAGES array.
-   */
-  resolveImageIndex() {
-    if (this.percentage == 100) {
-      return 0;
-    } else if (this.percentage > 80) {
-      return 1;
-    } else if (this.percentage > 60) {
-      return 2;
-    } else if (this.percentage > 40) {
-      return 3;
-    } else if (this.percentage > 20) {
-      return 4;
-    } else {
-      return 5;
-    }
-  }
 }

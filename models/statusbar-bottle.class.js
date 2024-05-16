@@ -25,27 +25,5 @@ class BottleStatusbar extends DrawableObject {
     this.width = 200;
     this.height = 60;
   }
-  /**
-   * Determines the appropriate image index based on the current percentage of the status bar.
-   * This method maps a numerical percentage to an index in the IMAGES array that corresponds to a specific
-   * visual representation of the bottle count. The percentage directly translates to the visual fullness
-   * of the bottle status bar, where a higher percentage indicates more bottles and thus a fuller image.
-   * @returns {number} The index of the image in the IMAGES array that reflects the current state of the bottle status bar.
-   */
-  resolveImageIndex() {
-    // Return the corresponding image index based on the percentage value.
-    if (this.percentage == 5) {
-      return 0;
-    } else if (this.percentage == 4) {
-      return 1;
-    } else if (this.percentage == 3) {
-      return 2;
-    } else if (this.percentage == 2) {
-      return 3;
-    } else if (this.percentage == 1) {
-      return 4;
-    } else if (this.percentage == 0) {
-      return 5;
-    }
-  }
+  
 }

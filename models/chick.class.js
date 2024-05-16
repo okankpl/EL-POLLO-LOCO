@@ -31,8 +31,8 @@ class Chick extends MovableObject {
     this.health = 1;
     this.offset = {
       top: 5,
-      left: 5,
-      right: 5,
+      left: 10,
+      right: 10,
       bottom: 0,
     };
     this.addAudioToArray(this.sound);
