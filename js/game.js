@@ -5,7 +5,6 @@ let sounds = [(background_music = new Audio("audio/background-music.mp3"))];
 let globalMute = false;
 let gameOver = false;
 
-
 /**
  * Sets up the game by loading levels and game components.
  * Hides the start screen and shows the mute button.
@@ -119,5 +118,3 @@ window.addEventListener("keyup", (e) => {
     keyboard.D = false;
   }
 });
-
-

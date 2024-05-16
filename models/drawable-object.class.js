@@ -19,7 +19,7 @@ class DrawableObject {
    * @param {Array<Audio>} sound - An array of audio elements to be added to the object.
    */
   addAudioToArray(sound) {
-    this.sounds.push(...sound);
+    sounds.push(...sound);
   }
 
   /**
