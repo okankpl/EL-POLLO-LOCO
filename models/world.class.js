@@ -151,9 +151,9 @@ class World {
       if (this.bottleCollidingEnemy(this.endboss, indexBottle) && !bottle.hit) {
         this.decreaseEndbossHealth(bottle);
         bottle.splashAnimation();
-        
+        if (!globalMute) {
           bottle.splash_sound.play();
-        
+        }
         this.endboss.gotHitByBottle();
       }
     });
@@ -194,10 +194,10 @@ class World {
    * Plays audio effects associated with a chicken being hit by a bottle.
    */
   playSoundsChickenBottle() {
-
+    if (!globalMute) {
       this.throwableObject.splash_sound.play();
       this.chicken.chicken_dead.play();
-    
+    }
   }
   /**
    * Determines if a throwable object (bottle) is colliding with an enemy.
