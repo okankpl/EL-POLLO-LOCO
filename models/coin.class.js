@@ -23,8 +23,8 @@ class Coins extends MovableObject {
     this.animate();
     this.offset = {
       top: 35,
-      left: 45,
-      right: 45,
+      left: 60,
+      right: 60,
       bottom: 35,
     };
   }

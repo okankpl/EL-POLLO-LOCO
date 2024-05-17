@@ -26,8 +26,8 @@ class Bottles extends MovableObject {
     this.animate();
     this.offset = {
       top: 10,
-      left: 15,
-      right: 15,
+      left: 25,
+      right: 25,
       bottom: 10,
     }; // Set hitbox offsets for collision detection.
   }

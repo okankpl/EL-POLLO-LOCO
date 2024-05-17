@@ -98,8 +98,8 @@ class Character extends MovableObject {
     this.applyGravity();
     this.offset = {
       top: 100,
-      left: 5,
-      right: 15,
+      left: 20,
+      right: 30,
       bottom: 10,
     };
     this.addAudioToArray(this.sound);

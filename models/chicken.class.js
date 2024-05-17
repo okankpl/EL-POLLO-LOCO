@@ -31,7 +31,7 @@ class Chicken extends MovableObject {
     this.animate();
     this.health = 1;
     this.offset = {
-      top: 5,
+      top: 0,
       left: 10,
       right: 10,
       bottom: 0,

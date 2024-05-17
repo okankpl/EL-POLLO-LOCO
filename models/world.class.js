@@ -29,6 +29,7 @@ class World {
   winImg = new Overlay("img/9_intro_outro_screens/game_over/game over!.png");
   bgrMusic = sounds[0];
   bottleCooldown = false;
+  animatiomFrame;
   /**
    * Constructs the game world and initializes all game components.
    * @param {HTMLCanvasElement} canvas - The canvas on which the game is drawn.
@@ -59,11 +60,13 @@ class World {
   stopGame() {
     if (gameOver) {
       setTimeout(() => {
-        for (let i = 1; i < 9999; i++) window.clearInterval(i);
+        for (let i = 1; i < 999999; i++) window.clearInterval(i);
         revealRestartButton();
+        this.animatiomFrame = null;
       }, 400);
     }
   }
+
   /**
    * Handles game over conditions, checking if the character or end boss has died, and triggers the end game sequence.
    */
@@ -377,10 +380,11 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     this.showWinLoseOverlay();
     let self = this;
-    requestAnimationFrame(function () {
+    this.animationFrame = requestAnimationFrame(function () {
       self.draw();
     });
   }
+
 
   /**
    * draws background objects to the canvas
@@ -437,6 +441,7 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
+    mo.drawFrame(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
