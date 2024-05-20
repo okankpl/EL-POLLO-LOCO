@@ -25,8 +25,8 @@ class World {
   win_sound = new Audio("audio/win.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",0,0);
-  winImg = new Overlay("img/9_intro_outro_screens/game_over/game over!.png");
+  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",720,480,0,0);
+  winImg = new Overlay("img/win_2.png", 600, 360, canvas.width / 2 - 300, canvas.height / 2 - 180);
   bgrMusic = sounds[0];
   bottleCooldown = false;
   animatiomFrame;
@@ -442,7 +442,6 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }

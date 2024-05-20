@@ -14,9 +14,11 @@ class Overlay extends DrawableObject {
    *
    * @param {string} path - The path to the image file that will be displayed as an overlay.
    */
-  constructor(path) {
+  constructor(path, width, height,x,y) {
     super().loadImage(path);
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
+    this.height = height;
+    this.width = width;
   }
 }
