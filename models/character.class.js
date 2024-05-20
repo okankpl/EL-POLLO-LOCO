@@ -119,6 +119,7 @@ class Character extends MovableObject {
 
     setInterval(() => {
       this.animationForCharacter();
+      console.log(this.speedY);
     }, 150);
   }
   /**
@@ -126,7 +127,11 @@ class Character extends MovableObject {
    */
   jump() {
     this.speedY = 25;
-    this.currentImage = 0;
+    if (this.speedY > 0) {
+      this.currentImage = 0;
+    } else if (this.speedY <= 0) {
+      this.currentImage = 4;
+    }
   }
   /**
    * Displays idle animation sequences based on how long the character has been idle.
@@ -155,7 +160,7 @@ class Character extends MovableObject {
     this.jumpCharacter();
     this.world.camera_x = -this.x + 100;
   }
- /**
+  /**
    * the character jups and plays the jump sound.
    * last action of character gets measured vor the idle animation
    */
