@@ -326,6 +326,7 @@ class World {
       this.throwableObjects.push(bottle);
       this.collectedBottles--;
       this.bottleStatusBar.setPercentage(this.collectedBottles);
+      this.character.measureLastCharacterAction();
       setTimeout(() => {
         this.bottleCooldown = false;
       }, 2000);

@@ -119,7 +119,6 @@ class Character extends MovableObject {
 
     setInterval(() => {
       this.animationForCharacter();
-      console.log(this.speedY);
     }, 150);
   }
   /**
