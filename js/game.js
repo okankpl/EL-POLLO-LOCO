@@ -57,10 +57,13 @@ function openInstructions() {
  * Restarts the game by resetting game states and re-initializing the game setup.
  */
 function restartGame() {
+  
+  toggleMute();
   gameOver = false;
   world = null;
   init();
   restart.style.display = "none";
+  toggleMute();
 }
 
 /**

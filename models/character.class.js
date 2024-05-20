@@ -129,8 +129,6 @@ class Character extends MovableObject {
     this.speedY = 25;
     if (this.speedY > 0) {
       this.currentImage = 0;
-    } else if (this.speedY <= 0) {
-      this.currentImage = 4;
     }
   }
   /**

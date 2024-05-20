@@ -112,7 +112,7 @@ class World {
    */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.gotKilledByJump) {
+      if (this.character.isColliding(enemy) && !this.gotKilledByJump && !this.character.isAboveGround()) {
         this.decreaseCharacterHealth();
       }
     });
@@ -231,7 +231,7 @@ class World {
         setTimeout(() => {
           this.removeObjectFromWorld(i);
           this.gotKilledByJump = false;
-        }, 150);
+        }, 200);
       }
     }
   }
