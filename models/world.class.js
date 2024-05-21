@@ -329,7 +329,7 @@ class World {
       this.character.measureLastCharacterAction();
       setTimeout(() => {
         this.bottleCooldown = false;
-      }, 2000);
+      }, 500);
     }
   }
 
