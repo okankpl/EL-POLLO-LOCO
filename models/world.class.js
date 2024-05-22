@@ -25,8 +25,20 @@ class World {
   win_sound = new Audio("audio/win.mp3");
   endbossHealth = 5;
   allInttervall = [];
-  loseImg = new Overlay("img/9_intro_outro_screens/game_over/oh no you lost!.png",720,480,0,0);
-  winImg = new Overlay("img/win_2.png", 600, 360, canvas.width / 2 - 300, canvas.height / 2 - 180);
+  loseImg = new Overlay(
+    "img/9_intro_outro_screens/game_over/oh no you lost!.png",
+    720,
+    480,
+    0,
+    0
+  );
+  winImg = new Overlay(
+    "img/win_2.png",
+    600,
+    360,
+    canvas.width / 2 - 300,
+    canvas.height / 2 - 180
+  );
   bgrMusic = sounds[0];
   bottleCooldown = false;
   animatiomFrame;
@@ -85,6 +97,20 @@ class World {
       this.stopGame();
     }
   }
+
+  /**
+   * Plays a sound if it is not already playing.
+   * @param {Audio} sound - The audio element to play.
+   */
+  playSound(sound) {
+    if (!sound.paused) {
+      sound.pause();
+      sound.currentTime = 0; // Reset to start
+    }
+    sound.play().catch((error) => {
+      console.error("Failed to play sound:", error);
+    });
+  }
   /**
    * Main game loop that handles all dynamic elements of the game such as movements, collisions, and interactions.
    */
@@ -112,7 +138,11 @@ class World {
    */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.gotKilledByJump && !this.character.isAboveGround()) {
+      if (
+        this.character.isColliding(enemy) &&
+        !this.gotKilledByJump &&
+        !this.character.isAboveGround()
+      ) {
         this.decreaseCharacterHealth();
       }
     });
@@ -385,7 +415,6 @@ class World {
       self.draw();
     });
   }
-
 
   /**
    * draws background objects to the canvas
